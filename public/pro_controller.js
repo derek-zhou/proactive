@@ -5,7 +5,6 @@
  */
 
 import {render} from './pro_view.js';
-import * as Items from './items.js';
 import * as Model from './pro_model.js';
 import * as Asset from './assets.js';
 
@@ -17,10 +16,20 @@ export const Screens = {
     edit: 4
 };
 
+// screen is fundimental content shown in the window
+export const Selections = {
+    expired: "expired",
+    daily: "daily",
+    weekly: "weekly",
+    monthly: "monthly",
+    quarterly: "quarterly",
+    yearly: "yearly"
+};
+
 // the application state
 var state = {
     screen: Screens.browse,
-    selection: Items.Selection.expired,
+    selection: Selections.expired,
     length: 0,
     currentItem: null,
     template: null,
@@ -163,7 +172,7 @@ export function clickReloadEvent(e) {
 export function clickExpiredEvent(e) {
     e.preventDefault();
     actionPreamble();
-    state.selection = Items.Selection.expired;
+    state.selection = Selections.expired;
     Model.first(state.selection);
     try_render();
 }
@@ -171,7 +180,7 @@ export function clickExpiredEvent(e) {
 export function clickDailyEvent(e) {
     e.preventDefault();
     actionPreamble();
-    state.selection = Items.Selection.daily;
+    state.selection = Selections.daily;
     Model.first(state.selection);
     try_render();
 }
@@ -179,7 +188,7 @@ export function clickDailyEvent(e) {
 export function clickWeeklyEvent(e) {
     e.preventDefault();
     actionPreamble();
-    state.selection = Items.Selection.weekly;
+    state.selection = Selections.weekly;
     Model.first(state.selection);
     try_render();
 }
@@ -187,7 +196,7 @@ export function clickWeeklyEvent(e) {
 export function clickMonthlyEvent(e) {
     e.preventDefault();
     actionPreamble();
-    state.selection = Items.Selection.monthly;
+    state.selection = Selections.monthly;
     Model.first(state.selection);
     try_render();
 }
@@ -195,7 +204,7 @@ export function clickMonthlyEvent(e) {
 export function clickQuarterlyEvent(e) {
     e.preventDefault();
     actionPreamble();
-    state.selection = Items.Selection.quarterly;
+    state.selection = Selections.quarterly;
     Model.first(state.selection);
     try_render();
 }
@@ -203,7 +212,7 @@ export function clickQuarterlyEvent(e) {
 export function clickYearlyEvent(e) {
     e.preventDefault();
     actionPreamble();
-    state.selection = Items.Selection.yearly;
+    state.selection = Selections.yearly;
     Model.first(state.selection);
     try_render();
 }
@@ -233,7 +242,7 @@ export function clickEditEvent(e) {
 export function clickNewEvent(e) {
     e.preventDefault();
     actionPreamble();
-    state.template = Items.template();
+    state.template = null;
     state.screen = Screens.edit;
     try_render();
 }
@@ -243,6 +252,7 @@ export function submitEditEvent(e) {
     actionPreamble();
     let data = new FormData(e.currentTarget);
     let changes = {};
+    addChanges(changes, "url", data);
     addChanges(changes, "note", data);
     addChanges(changes, "checkInterval", data);
     Model.save(state.template, changes, state.selection);

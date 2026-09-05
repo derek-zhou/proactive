@@ -10,10 +10,10 @@ import * as Items from './items.js';
 
 // events I post to the controller
 import {alertEvent, itemsLoadedEvent, shutDownEvent,
-	itemUpdatedEvent} from "./pro_controller.js";
+	itemUpdatedEvent, Selections} from "./pro_controller.js";
 
 // exported client side functions. all return promises or null
-export {init, clearData, first, forward, backward, save, remove};
+export {init, shutdown, clearData, first, forward, backward, save, remove};
 
 /*
  * callback side state and entry points
@@ -29,7 +29,7 @@ async function cb_init(prev) {
     });
     let lenth = await Items.load(db);
     itemsLoadedEvent(length);
-    let item = await Items.first(Items.Selection.expired, db);
+    let item = await Items.first(Selections.expired, db);
     itemUpdatedEvent(item);
 }
 
@@ -86,26 +86,34 @@ async function cb_backward(prev, current, selection) {
     }
 }
 
-async function cb_save(prev, object, selection) {
+async function cb_save(prev, object, changes, selection) {
     await prev;
     if (!db)
 	return;
 
-    if (object.id) {
+    if (object) {
 	// updating current item, must figure out the next item from current before the update
-	let next = await await Items.sensible_next(object.id, selection, db);
-	let id = await Items.update(object, db);
-	itemUpdatedEvent(next);
-	return id;
-    } else {
-	// adding an item, no need to figure out the next item. might throw
+	let next = await Items.sensible_next(object.id, selection, db);
 	try {
-	    let id = await Items.add(object, db);
-	    alertEvent("info", "The item '" + object.url +"' is added");
+	    let id = await Items.update(object, changes, db);
+	    itemUpdatedEvent(next);
 	    return id;
 	} catch (e) {
 	    if (e instanceof DOMException) {
-		alertEvent("error", "The item '" + object.url +"' already exists");
+		alertEvent("error", "The item '" + changes.url +"' already exists");
+	    } else {
+		throw e;
+	    }
+	}
+    } else {
+	// adding an item, no need to figure out the next item. might throw
+	try {
+	    let id = await Items.add(changes, db);
+	    alertEvent("info", "The item '" + changes.url +"' is added");
+	    return id;
+	} catch (e) {
+	    if (e instanceof DOMException) {
+		alertEvent("error", "The item '" + changes.url +"' already exists");
 	    } else {
 		throw e;
 	    }
@@ -155,10 +163,7 @@ function backward(current, selection) {
 }
 
 function save(template, changes, selection) {
-    for (const prop in changes) {
-	template[prop] = changes[prop];
-    }
-    state = cb_save(state, template, selection);
+    state = cb_save(state, template, changes, selection);
 }
 
 function remove(current, selection) {

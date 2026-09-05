@@ -13,8 +13,7 @@ import {openCursor, openCursorFromIndex, continueCursor, getObject, getObjectFro
 	addObject, putObject, deleteObject} from './index_db.js';
 
 // public apis
-export {upgrade, load, Selection, first, next, previous, remove, add, update, template,
-       sensible_next};
+export {upgrade, load, first, next, previous, remove, add, update, sensible_next};
 
 const Store = "items";
 const UrlIndex = "url";
@@ -84,17 +83,8 @@ function upgrade(db) {
     store.createIndex(UrlIndex, UrlIndex, {unique: true});
 }
 
-function template() {
-    return {
-	url: "https://example.com",
-	lastChecked: new Date(),
-	checkInterval: 7,
-	note: ""
-    };
-}
-
 async function first(selection, db) {
-    let list = selection();
+    let list = Selection[selection]();
 
     if (list.length > 0) {
 	// getObject is async
@@ -105,7 +95,7 @@ async function first(selection, db) {
 }
 
 async function next(cursor, selection, db) {
-    let list = selection();
+    let list = Selection[selection]();
     let found = false;
 
     for (const id of list) {
@@ -120,7 +110,7 @@ async function next(cursor, selection, db) {
 }
 
 async function previous(cursor, selection, db) {
-    let list = selection();
+    let list = Selection[selection]();
     let pre = null;
 
     for (const id of list) {
@@ -141,7 +131,7 @@ async function previous(cursor, selection, db) {
 
 // either next or previous, if already at the last
 async function sensible_next(cursor, selection, db) {
-    let list = selection();
+    let list = Selection[selection]();
     let pre = null;
     let found = false;
 
@@ -169,14 +159,21 @@ async function remove(cursor, db) {
     summaries.delete(cursor);
 }
 
-async function add(item, db) {
+async function add(changes, db) {
+    let item = {lastChanged: new Date()};
+    for (const prop in changes) {
+	item[prop] = changes[prop];
+    }
     let id = await addObject(db, Store, item);
     summaries.put(id, {lastChecked: item.lastChecked, checkInterval: item.checkInterval});
     item.id = id;
     return id;
 }
 
-async function update(item, db) {
+async function update(item, changes, db) {
+    for (const prop in changes) {
+	item[prop] = changes[prop];
+    }
     let id = await putObject(db, Store, item);
     summaries.put(id, {lastChecked: item.lastChecked, checkInterval: item.checkInterval});
     item.id = id;
