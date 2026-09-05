@@ -215,6 +215,13 @@ export function clickSnoozeEvent(e) {
     try_render();
 }
 
+export function clickTrashEvent(e) {
+    e.preventDefault();
+    actionPreamble();
+    state.screen = Screens.trash;
+    try_render();
+}
+
 export function clickEditEvent(e) {
     e.preventDefault();
     actionPreamble();
@@ -236,10 +243,16 @@ export function submitEditEvent(e) {
     actionPreamble();
     let data = new FormData(e.currentTarget);
     let changes = {};
-    addChanges(changes, "url", data);
     addChanges(changes, "note", data);
     addChanges(changes, "checkInterval", data);
-    Model.save(state.template, changes);
+    Model.save(state.template, changes, state.selection);
+    try_render();
+}
+
+export function submitRemoveEvent(e) {
+    e.preventDefault();
+    actionPreamble();
+    Model.remove(state.currentItem, state.selection);
     try_render();
 }
 

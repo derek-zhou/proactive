@@ -13,7 +13,8 @@ import {openCursor, openCursorFromIndex, continueCursor, getObject, getObjectFro
 	addObject, putObject, deleteObject} from './index_db.js';
 
 // public apis
-export {upgrade, load, Selection, first, next, previous, remove, add, update, template};
+export {upgrade, load, Selection, first, next, previous, remove, add, update, template,
+       sensible_next};
 
 const Store = "items";
 const UrlIndex = "url";
@@ -124,17 +125,43 @@ async function previous(cursor, selection, db) {
 
     for (const id of list) {
 	if (cursor == id) {
-	    if (pre != null) {
-		// getObject is async
-		return getObject(db, Store, pre);
-	    } else {
-		return null;
-	    }
+	    break;
 	} else {
 	    pre = id;
 	}
     }
-    return null;
+
+    if (pre != null) {
+	// getObject is async
+	return getObject(db, Store, pre);
+    } else {
+	return null;
+    }
+}
+
+// either next or previous, if already at the last
+async function sensible_next(cursor, selection, db) {
+    let list = selection();
+    let pre = null;
+    let found = false;
+
+    for (const id of list) {
+	if (found) {
+	    // getObject is async
+	    return getObject(db, Store, id);
+	} else if (cursor == id) {
+	    found = true;
+	} else {
+	    pre = id;
+	}
+    }
+
+    if (pre != null) {
+	// getObject is async
+	return getObject(db, Store, pre);
+    } else {
+	return null;
+    }
 }
 
 async function remove(cursor, db) {

@@ -13,7 +13,7 @@ import {alertEvent, itemsLoadedEvent, shutDownEvent,
 	itemUpdatedEvent} from "./pro_controller.js";
 
 // exported client side functions. all return promises or null
-export {init, clearData, first, forward, backward, save};
+export {init, clearData, first, forward, backward, save, remove};
 
 /*
  * callback side state and entry points
@@ -86,17 +86,41 @@ async function cb_backward(prev, current, selection) {
     }
 }
 
-async function cb_save(prev, object) {
+async function cb_save(prev, object, selection) {
     await prev;
     if (!db)
 	return;
 
     if (object.id) {
-	await Items.update(object, db);
+	// updating current item, must figure out the next item from current before the update
+	let next = await await Items.sensible_next(object.id, selection, db);
+	let id = await Items.update(object, db);
+	itemUpdatedEvent(next);
+	return id;
     } else {
-	await Items.add(object, db);
+	// adding an item, no need to figure out the next item. might throw
+	try {
+	    let id = await Items.add(object, db);
+	    alertEvent("info", "The item '" + object.url +"' is added");
+	    return id;
+	} catch (e) {
+	    if (e instanceof DOMException) {
+		alertEvent("error", "The item '" + object.url +"' already exists");
+	    } else {
+		throw e;
+	    }
+	}
     }
-    itemUpdatedEvent(current);
+}
+
+async function cb_remove(prev, current, selection) {
+    await prev;
+    if (!db)
+	return;
+
+    let next = await Items.sensible_next(current.id, selection, db);
+    await Items.remove(current, db);
+    itemUpdatedEvent(next);
 }
 
 /*
@@ -130,9 +154,13 @@ function backward(current, selection) {
     state = cb_backward(state, current, selection);
 }
 
-function save(template, changes) {
+function save(template, changes, selection) {
     for (const prop in changes) {
 	template[prop] = changes[prop];
     }
-    state = cb_save(state, template);
+    state = cb_save(state, template, selection);
+}
+
+function remove(current, selection) {
+    state = cb_remove(state, current, selection);
 }
