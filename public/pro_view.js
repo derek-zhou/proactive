@@ -1,6 +1,7 @@
 import * as Controller from "./pro_controller.js";
 import * as Asset from "./assets.js";
 import {dialog} from "./dialog.js";
+import {browse} from "./browse.js";
 import {replay, hook, elem, text, attr, cl, div} from "./domfun.js";
 
 // render everything from scratch
@@ -13,7 +14,6 @@ export function render(state) {
 	    hook("touchmove", Controller.touchMoveEvent),
 	    div(alert(state)),
 	    div(application(state)),
-	    div(browser(state)),
 	    div(footer(state)))
     );
 }
@@ -54,10 +54,17 @@ function footer(state) {
 }
 
 function application(state) {
-    return [
-	navbar(state),
-	dialog(state)
-    ];
+    if (state.screen == Controller.Screens.browse) {
+	return [
+	    navbar(state),
+	    browse(state)
+	];
+    } else {
+	return [
+	    navbar(state),
+	    dialog(state)
+	];
+    }
 }
 
 function navbar(state) {
@@ -105,8 +112,4 @@ function alert(state) {
 	hook("click", Controller.clickAlertEvent),
 	text(state.alert.text)
     ]);
-}
-
-function browser(state) {
-    return [];
 }
