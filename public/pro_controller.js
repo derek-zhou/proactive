@@ -91,6 +91,7 @@ export function itemsLoadedEvent(length) {
 
 export function itemUpdatedEvent(item) {
     state.currentItem = item;
+    state.screen = Screens.browse;
     try_render();
 }
 
@@ -242,8 +243,17 @@ export function clickEditEvent(e) {
 export function clickNewEvent(e) {
     e.preventDefault();
     actionPreamble();
-    state.template = null;
-    state.screen = Screens.edit;
+    if (state.screen != Screens.edit) {
+	state.template = null;
+	state.screen = Screens.edit;
+	try_render();
+    }
+}
+
+export function resetDialogEvent(e) {
+    e.preventDefault();
+    actionPreamble();
+    state.screen = Screens.browse;
     try_render();
 }
 

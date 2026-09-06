@@ -1,9 +1,11 @@
 import * as Controller from "./pro_controller.js";
 import * as Asset from "./assets.js";
+import {dialog} from "./dialog.js";
 import {replay, hook, elem, text, attr, cl, div} from "./domfun.js";
 
 // render everything from scratch
 export function render(state) {
+    document.title = render_title(state);
     replay(
 	document.body, div(
 	    cl("viewport"),
@@ -11,8 +13,22 @@ export function render(state) {
 	    hook("touchmove", Controller.touchMoveEvent),
 	    div(alert(state)),
 	    div(application(state)),
+	    div(browser(state)),
 	    div(footer(state)))
     );
+}
+
+function render_title(state) {
+    switch (state.screen) {
+    case Controller.Screens.browse:
+	return `Proactive ${state.selection} tasks`;
+    case Controller.Screens.trash:
+	return "Proactive: Are you sure?";
+    case Controller.Screens.edit:
+	return "Proactive: Edit your task";
+    case Controller.Screens.shutdown:
+	return "Proactive (zzz)";
+    }
 }
 
 function footer(state) {
@@ -29,7 +45,7 @@ function footer(state) {
 	div(cl("right-half"),
 	    elem("a", [
 		attr({
-		    href: "https://github.com/derek-zhou/airss",
+		    href: "https://github.com/derek-zhou/proactive",
 		    referrerpolicy: "no-referrer-when-downgrade"
 		}),
 		text("Fork me on GitHub")
@@ -50,21 +66,12 @@ function navbar(state) {
 	    div(elem("a", [
 		attr({href: "index.html"}),
 		elem("img", attr({src: Asset.at("logoImage"), class: "logo"})),
-		]),
-		elem("span", [
-		    cl("info"),
-		    text(`${state.cursor+1}/${state.length}`)
-		])),
+	    ])),
 	    div(cl("toolbar"),
 		elem("button", [
 		    cl("button"),
-		    hook("click", Controller.clickConfigEvent),
-		    text("🔧")
-		]),
-		elem("button", [
-		    cl("button"),
-		    hook("click", Controller.clickSubscribeEvent),
-		    text("🍼")
+		    hook("click", Controller.clickNewEvent),
+		    text("➕")
 		]),
 		elem("button", [
 		    cl("button"),
@@ -79,6 +86,17 @@ function navbar(state) {
     ];
 }
 
+function alertClass(type) {
+    switch (type) {
+    case "error":
+	return "alert-danger";
+    case "warning":
+	return "alert-warning";
+    default:
+	return "alert-info";
+    }
+}
+
 function alert(state) {
     if (state.alert.text == "")
 	return [];
@@ -89,6 +107,6 @@ function alert(state) {
     ]);
 }
 
-function dialog(state) {
+function browser(state) {
     return [];
 }

@@ -64,8 +64,12 @@ async function cb_first(prev, selection) {
 
 async function cb_forward(prev, current, selection) {
     await prev;
-    if (!db || current)
+    if (!db)
 	return;
+    if (!current) {
+	alertEvent("warning", "Already at the end");
+	return;
+    }
     let item = await Items.next(current.id, selection, db);
     if (!item) {
 	alertEvent("warning", "Already at the end");
@@ -76,8 +80,12 @@ async function cb_forward(prev, current, selection) {
 
 async function cb_backward(prev, current, selection) {
     await prev;
-    if (!db || !current)
+    if (!db)
 	return;
+    if (!current) {
+	alertEvent("warning", "Already at the beginning");
+	return;
+    }
     let item = await Items.prev(current.id, selection, db);
     if (!item) {
 	alertEvent("warning", "Already at the beginning");
