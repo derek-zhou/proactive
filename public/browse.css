@@ -1,0 +1,58 @@
+h2 {
+    margin-left: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.625;
+}
+div.browser {
+    display: flex;
+    flex-direction: row;
+    background-color: White;
+}
+div.content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+}
+div.tablist {
+    width: 20rem;
+    display: flex;
+    flex-direction: column;
+    padding-top: 2rem;
+}
+div.tablist button.tab {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+div.tablist button.tab[disabled] {
+    pointer-events: none;
+    cursor: default;
+}
+div.twoside {
+    margin-bottom: 0.5rem;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+}
+div.line {
+    margin-bottom: 0.5rem;
+    width: 100%;
+}
+div.twoside label {
+    width: 20rem;
+    text-align: right;
+}
+div.twoside span.value {
+    flex-grow: 1;
+    font-weight: 700;
+    font-style: italic;
+}
+div.line div.value {
+    flex-grow: 1;
+    font-weight: 700;
+    font-style: italic;
+}

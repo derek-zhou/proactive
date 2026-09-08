@@ -16,9 +16,12 @@ export function dialog(state) {
 }
 
 function reload_dialog() {
-    return custom_form(Controller.clickReloadEvent, null, [
-	elem("p", text("Proactive is shut down. Reload?"))
-    ]);
+    return custom_form(
+	Controller.clickReloadEvent,
+	null,
+	"Proactive is shut down",
+	[elem("p", text("Proactive is shut down. Reload?"))]
+    );
 }
 
 function interval_string(interval) {
@@ -39,36 +42,37 @@ function interval_string(interval) {
 }
 
 function trash_dialog(item) {
-    return custom_form(Controller.submitRemoveEvent, Controller.resetDialogEvent, [
-	elem("p", [
-	    cl("line"),
-	    text("Are you sure you want to delete this item?")
-	]),
-	div(cl("field", "long"),
-	    elem("label", [
-		text("URL: "),
-		elem("span", [
-		    cl("focus"),
-		    text(item.url)
+    return custom_form(
+	Controller.submitRemoveEvent,
+	Controller.resetDialogEvent,
+	"Are you sure you want to delete this item?",
+	[
+	    div(cl("field", "long"),
+		elem("label", [
+		    text("URL: "),
+		    elem("span", [
+			cl("focus"),
+			text(item.url)
+		    ])
+		])),
+	    div(cl("field", "long"),
+		elem("label", [
+		    text("Last checked: "),
+		    elem("span", [
+			cl("focus"),
+			text(item.lastChecked.to_string())
 		])
-	    ])),
-	div(cl("field", "long"),
-	    elem("label", [
-		text("Last checked: "),
-		elem("span", [
-		    cl("focus"),
-		    text(item.lastChecked.to_string())
-		])
-	    ])),
-	div(cl("field", "long"),
-	    elem("label", [
-		text("Check interval: "),
-		elem("span", [
-		    cl("focus"),
-		    text(interval_string(item.checkInterval))
-		])
-	    ]))
-    ]);
+		])),
+	    div(cl("field", "long"),
+		elem("label", [
+		    text("Check interval: "),
+		    elem("span", [
+			cl("focus"),
+			text(interval_string(item.checkInterval))
+		    ])
+		]))
+	]
+    );
 }
 
 function check_interval_options(default_value) {
@@ -85,7 +89,7 @@ function default_url(template) {
     if (template)
 	return template.url;
     else
-	return "https://example.com";
+	return "";
 }
 
 function default_check_interval(template) {
@@ -102,33 +106,42 @@ function default_note(template) {
 	return "";
 }
 
+function edit_title(template) {
+    if (template)
+	return "Modifying a task";
+    else
+	return "Adding a task";
+}
+
 function edit_dialog(template) {
-    return custom_form(Controller.submitEditEvent, Controller.resetDialogEvent, [
-	div(cl("field", "long"),
-	    elem("label", [
-		text("URL: "),
+    return custom_form(
+	Controller.submitEditEvent,
+	Controller.resetDialogEvent,
+	edit_title(template),
+	[
+	    div(cl("twoside"),
+		elem("label", text("URL: ")),
 		elem("input", [
 		    attr({type: "text", name: "url",
-			  value: default_url(template), class:"short"})
+		      value: default_url(template), class:"long"})
 		])
-	    ])),
-	div(cl("field", "long"),
-	    elem("label", [
-		text("Check interval:"),
+	       ),
+	    div(cl("twoside"),
+		elem("label", text("Check interval:")),
 		elem("select", [
 		    attr({name: "checkInterval"}),
 		    check_interval_options(default_check_interval(template))
 		])
-	    ])),
-	div(cl("field", "long"),
-	    elem("label", [
-		text("Note to myself: "),
+	       ),
+	    div(cl("twoside"), elem("label", text("Note to myself: "))),
+	    div(cl("line"),
 		elem("textarea", [
 		    attr({name: "note"}),
 		    text(default_note(template))
 		])
-	    ]))
-    ]);
+	       )
+	]
+    );
 }
 
 function build_options(options, default_value) {
@@ -141,12 +154,13 @@ function build_options(options, default_value) {
     );
 }
 
-function custom_form(submit_action, reset_action, inner) {
+function custom_form(submit_action, reset_action, title, inner) {
     return shadow_div(
 	[Asset.at("preflightCSS"), Asset.at("dialogCSS")],
 	elem("form", [
 	    hook("submit", submit_action),
 	    reset_action ? hook("reset", reset_action) : [],
+	    elem("h2", text(title)),
 	    elem("section", inner),
 	    div(cl("toolbar"),
 		submit_button(),

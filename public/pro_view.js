@@ -12,9 +12,11 @@ export function render(state) {
 	    cl("viewport"),
 	    hook("touchstart", Controller.touchStartEvent),
 	    hook("touchmove", Controller.touchMoveEvent),
-	    div(alert(state)),
-	    div(application(state)),
-	    div(footer(state)))
+	    alert(state),
+	    navbar(state),
+	    dialog(state),
+	    content(state),
+	    footer(state))
     );
 }
 
@@ -33,38 +35,25 @@ function render_title(state) {
 
 function footer(state) {
     return [
-	cl("footer"),
-	div(cl("left-half"),
-	    elem("a", [
-		attr({
-		    href: "https://roastidio.us/roast",
-		    referrerpolicy: "no-referrer-when-downgrade"
-		}),
-		text("Roast me at Roastidious")
-	    ])),
-	div(cl("right-half"),
-	    elem("a", [
-		attr({
-		    href: "https://github.com/derek-zhou/proactive",
-		    referrerpolicy: "no-referrer-when-downgrade"
-		}),
-		text("Fork me on GitHub")
-	    ]))
-    ];
-}
-
-function application(state) {
-    if (state.screen == Controller.Screens.browse) {
-	return [
-	    navbar(state),
-	    browse(state)
-	];
-    } else {
-	return [
-	    navbar(state),
-	    dialog(state)
-	];
-    }
+	div(
+	    cl("footer"),
+	    div(cl("left-half"),
+		elem("a", [
+		    attr({
+			href: "https://roastidio.us/roast",
+			referrerpolicy: "no-referrer-when-downgrade"
+		    }),
+		    text("Roast me at Roastidious")
+		])),
+	    div(cl("right-half"),
+		elem("a", [
+		    attr({
+			href: "https://github.com/derek-zhou/proactive",
+			referrerpolicy: "no-referrer-when-downgrade"
+		    }),
+		    text("Fork me on GitHub")
+		]))
+	)];
 }
 
 function navbar(state) {
@@ -112,4 +101,38 @@ function alert(state) {
 	hook("click", Controller.clickAlertEvent),
 	text(state.alert.text)
     ]);
+}
+
+function content(state) {
+    if (state.screen == Controller.Screens.browse) {
+	return [
+	    div(cl("viewport-content"), browse(state)),
+	    div(cl("actionbar"), actionBar(state.currentItem))
+	];
+    } else {
+	return [];
+    }
+}
+
+function actionBar(item) {
+    return [
+	elem("button", [
+	    cl("button"),
+	    item ? [] : attr({disabled: true}),
+	    hook("click", Controller.clickSnoozeEvent),
+	    text("⏰")
+	]),
+	elem("button", [
+	    cl("button"),
+	    item ? [] : attr({disabled: true}),
+	    hook("click", Controller.clickEditEvent),
+	    text("✏")
+	]),
+	elem("button", [
+	    cl("button", "danger"),
+	    item ? [] : attr({disabled: true}),
+	    hook("click", Controller.clickTrashEvent),
+	    text("🗑 ")
+	])
+    ];
 }

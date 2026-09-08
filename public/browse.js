@@ -12,22 +12,35 @@ export function browse(state) {
 }
 
 function item_view(item, selection) {
-    return item ? real_item(item) : dummy_item(selection);
-}
-
-function dummy_item(selection) {
-    if (selection == Controller.Selections.expired) {
+    if (item) {
+	return [
+	    elem("h2", text(`A ${selection} task`)),
+	    div(cl("line"),
+		elem("label", text("Url: ")),
+		elem("span", [
+		    cl("value",
+		       elem("a", [attr({href: item.url}), text(item.url)]))
+		])),
+	    div(cl("line"),
+		elem("label", text("Last Checked: ")),
+		elem("span", [
+		    cl("value"),
+		    text(item.lastChecked.to_string())
+		])),
+	    div(cl("line"),
+		elem("label", text("Check interval: ")),
+		elem("span", [
+		    cl("value"),
+		    text(interval_sgtring(item.checkInterval))
+		])),
+	    div(cl("line"), elem("label", text("Note to myself: "))),
+	    div(cl("line"), div(cl("value"), text(item.note)))
+	];
+    } else if (selection == Controller.Selections.expired) {
 	return elem("h2", text("You are all caught up, Yay!"));
     } else {
 	return elem("h2", text(`No tasks is the selected view: ${selection}`));
     }
-}
-
-function real_item(item) {
-    return [
-	div(cl("item-detail"), item_detail(item)),
-	div(cl("item-toolbar"), item_toolbar())
-    ];
 }
 
 function interval_string(interval) {
@@ -61,29 +74,9 @@ function item_detail(item) {
     ];
 }
 
-function item_toolbar() {
-    return [
-	elem("button", [
-	    cl("button"),
-	    hook("click", Controller.clickSnoozeEvent),
-	    text("⏰")
-	]),
-	elem("button", [
-	    cl("button"),
-	    hook("click", Controller.clickEditEvent),
-	    text("📃")
-	]),
-	elem("button", [
-	    cl("button"),
-	    hook("click", Controller.clickTrashEvent),
-	    text("🗑 ")
-	])
-    ];
-}
-
 function tab_attr(tab, selected) {
     if (tab == selected)
-	return attr({disabled: true, class: "tab selected"});
+	return attr({disabled: true, class: "tab"});
     else
 	return attr({class: "tab"});
 }
