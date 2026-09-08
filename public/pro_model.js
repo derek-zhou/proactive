@@ -101,7 +101,7 @@ async function cb_save(prev, object, changes, selection) {
 
     if (object) {
 	// updating current item, must figure out the next item from current before the update
-	let next = await Items.sensible_next(object.id, selection, db);
+	let next = await Items.sensibleNext(object.id, selection, db);
 	try {
 	    let id = await Items.update(object, changes, db);
 	    if (next) {
@@ -141,7 +141,7 @@ async function cb_remove(prev, current, selection) {
     if (!db)
 	return;
 
-    let next = await Items.sensible_next(current.id, selection, db);
+    let next = await Items.sensibleNext(current.id, selection, db);
     await Items.remove(current.id, db);
     itemUpdatedEvent(next);
 }

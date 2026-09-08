@@ -1,6 +1,7 @@
 import * as Controller from "./pro_controller.js";
 import * as Asset from './assets.js';
 import {hook, elem, text, attr, cl, div, shadow_div} from "./domfun.js";
+import {intervalString} from "./items.js";
 
 export function browse(state) {
     return shadow_div(
@@ -31,7 +32,7 @@ function item_view(item, selection) {
 		elem("label", text("Check interval: ")),
 		elem("span", [
 		    cl("value"),
-		    text(interval_string(item.checkInterval))
+		    text(intervalString(item.checkInterval))
 		])),
 	    div(cl("twoside"), elem("label", text("Note to myself: "))),
 	    div(cl("line"), div(cl("value"), text(item.note)))
@@ -39,24 +40,7 @@ function item_view(item, selection) {
     } else if (selection == Controller.Selections.expired) {
 	return elem("h2", text("You are all caught up, Yay!"));
     } else {
-	return elem("h2", text(`No tasks is the selected view: ${selection}`));
-    }
-}
-
-function interval_string(interval) {
-    switch (interval) {
-    case 1:
-	return "daily";
-    case 7:
-	return "weekly";
-    case 30:
-	return "monthly";
-    case 90:
-	return "quarterly";
-    case 365:
-	return "yearly";
-    default:
-	return `every ${interval} days`;
+	return elem("h2", text(`No tasks in the selected view: ${selection}`));
     }
 }
 

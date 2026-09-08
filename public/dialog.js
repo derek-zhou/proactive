@@ -1,6 +1,7 @@
 import * as Controller from "./pro_controller.js";
 import * as Asset from './assets.js';
 import {hook, elem, text, attr, cl, div, shadow_div} from "./domfun.js";
+import {intervalString, IntervalChoices} from "./items.js";
 
 export function dialog(state) {
     switch (state.screen) {
@@ -22,23 +23,6 @@ function reload_dialog() {
 	"Proactive is shut down",
 	[elem("p", text("Proactive is shut down. Reload?"))]
     );
-}
-
-function interval_string(interval) {
-    switch (interval) {
-    case 1:
-	return "daily";
-    case 7:
-	return "weekly";
-    case 30:
-	return "monthly";
-    case 90:
-	return "quarterly";
-    case 365:
-	return "yearly";
-    default:
-	return `every ${interval} days`;
-    }
 }
 
 function trash_dialog(item) {
@@ -63,7 +47,7 @@ function trash_dialog(item) {
 		elem("label", text("Check interval: ")),
 		elem("span", [
 		    cl("value"),
-		    text(interval_string(item.checkInterval))
+		    text(intervalString(item.checkInterval))
 		])),
 	    div(cl("twoside"), elem("label", text("Note to myself: "))),
 	    div(cl("line"), div(cl("value"), text(item.note)))
@@ -72,13 +56,8 @@ function trash_dialog(item) {
 }
 
 function check_interval_options(default_value) {
-    return build_options([
-	{value: 1, text: "daily"},
-	{value: 7, text: "weekly"},
-	{value: 30, text: "monthly"},
-	{value: 90, text: "quarterly"},
-	{value: 365, text: "yearly"}
-    ], default_value);
+    let choices = IntervalChoices.map((i) => ({value: i, text: intervalString(i)}));
+    return build_options(choices, default_value);
 }
 
 function default_url(template) {

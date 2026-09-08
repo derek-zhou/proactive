@@ -4,7 +4,7 @@
  * id: autoincrement id
  * url: the url of this item, nust be unque
  * lastChecked: datetime
- * checkInterval: in days, has to be 1, 7, 30, 90, 365,
+ * checkInterval: in days, has to be 1, 7, 28, 87, 360,
  *                ie: daily, weekly, monthly, quarterly, or yearly
  *                the expirationDate is not stored; computed as lastChecked + checkInterval
  * note: additional not to myself
@@ -13,7 +13,8 @@ import {openCursor, openCursorFromIndex, continueCursor, getObject, getObjectFro
 	addObject, putObject, deleteObject} from './index_db.js';
 
 // public apis
-export {upgrade, load, first, next, previous, remove, add, update, sensible_next};
+export {upgrade, load, first, next, previous, remove, add, update, sensibleNext, intervalString,
+       IntervalChoices};
 
 const Store = "items";
 const UrlIndex = "url";
@@ -66,15 +67,34 @@ function selectInterval(interval) {
     return list;
 }
 
+const IntervalChoices = [1, 7, 28, 87, 360];
+
 const Selection = {
     expired: () => selectExpired(new Date()),
     nextWeek: () => selectExpired(addDays(new Date(), 7)),
     daily: () => selectInterval(1),
     weekly: () => selectInterval(7),
-    monthly: () => selectInterval(30),
-    quarterly: () => selectInterval(90),
-    yearly: () => selectInterval(365)
+    monthly: () => selectInterval(28),
+    quarterly: () => selectInterval(87),
+    yearly: () => selectInterval(360)
 };
+
+function intervalString(interval) {
+    switch (interval) {
+    case 1:
+	return "daily";
+    case 7:
+	return "weekly";
+    case 28:
+	return "monthly";
+    case 87:
+	return "quarterly";
+    case 360:
+	return "yearly";
+    default:
+	return `every ${interval} days`;
+    }
+}
 
 function upgrade(db) {
     // the store holds all the feeds
@@ -137,7 +157,7 @@ async function previous(cursor, selection, db) {
 }
 
 // either next or previous, if already at the last
-async function sensible_next(cursor, selection, db) {
+async function sensibleNext(cursor, selection, db) {
     let list = Selection[selection]();
     let pre = null;
     let found = false;
@@ -169,13 +189,12 @@ async function remove(cursor, db) {
 }
 
 async function add(changes, db) {
-    let item = {lastChecked: new Date()};
+    let item = {lastChecked: new Date(), url: "", note: "", checkInterval: 7};
     for (const prop in changes) {
 	item[prop] = changes[prop];
     }
     let id = await addObject(db, Store, item);
     summaries.set(id, {lastChecked: item.lastChecked, checkInterval: item.checkInterval});
-    item.id = id;
     return id;
 }
 

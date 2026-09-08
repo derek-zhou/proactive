@@ -90,9 +90,12 @@ export function itemsLoadedEvent(length) {
 export function itemUpdatedEvent(item) {
     if (item !== undefined) {
 	state.currentItem = item;
+        state.screen = Screens.browse;
+	try_render();
+    } else if (!state.currentItem) {
+	// try harder to show something
+	Model.first(state.selection);
     }
-    state.screen = Screens.browse;
-    try_render();
 }
 
 export function alertEvent(type, text) {
@@ -277,15 +280,13 @@ export function submitRemoveEvent(e) {
 }
 
 function addStringChange(changes, key, data) {
-    let value = data.get(key);
-    if (value)
-	changes[key] = value;
+    if (data.has(key))
+	changes[key] = data.get(key);
 }
 
 function addIntegerChange(changes, key, data) {
-    let value = data.get(key);
-    if (value)
-	changes[key] = parseInt(value);
+    if (data.has(key))
+	changes[key] = parseInt(data.get(key));
 }
 
 Model.init(state.selection);
