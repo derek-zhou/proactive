@@ -51,7 +51,7 @@ function trash_dialog(item) {
 		elem("label", text("URL: ")),
 		elem("span", [
 		    cl("value"),
-		    elem("a", [attr({href: item.url}), text(item.url)])
+		    text(item.url)
 		])),
 	    div(cl("twoside"),
 		elem("label", text("Last Checked: ")),

@@ -22,14 +22,14 @@ export {init, shutdown, clearData, first, forward, backward, save, remove};
 let db = null;
 
 // the init callback
-async function cb_init(prev) {
+async function cb_init(prev, selection) {
     await prev;
     db = await openDB("Proactive", 1, (db) => {
 	Items.upgrade(db);
     });
     let length = await Items.load(db);
     itemsLoadedEvent(length);
-    let item = await Items.first(Selections.expired, db);
+    let item = await Items.first(selection, db);
     itemUpdatedEvent(item);
 }
 
@@ -86,7 +86,7 @@ async function cb_backward(prev, current, selection) {
 	alertEvent("warning", "Already at the beginning");
 	return;
     }
-    let item = await Items.prev(current.id, selection, db);
+    let item = await Items.previous(current.id, selection, db);
     if (!item) {
 	alertEvent("warning", "Already at the beginning");
     } else {
@@ -123,6 +123,8 @@ async function cb_save(prev, object, changes, selection) {
 	try {
 	    let id = await Items.add(changes, db);
 	    alertEvent("info", "The item '" + changes.url +"' is added");
+	    // just go back to what was there before
+	    itemUpdatedEvent(undefined);
 	    return id;
 	} catch (e) {
 	    if (e instanceof DOMException) {
@@ -150,8 +152,8 @@ async function cb_remove(prev, current, selection) {
  */
 let state = null;
 
-function init() {
-    state = cb_init(state);
+function init(selection) {
+    state = cb_init(state, selection);
 }
 
 // clear all local data

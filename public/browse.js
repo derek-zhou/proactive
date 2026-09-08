@@ -19,7 +19,7 @@ function item_view(item, selection) {
 		elem("label", text("Url: ")),
 		elem("span", [
 		    cl("value"),
-		    elem("a", [attr({href: item.url}), text(item.url)])
+		    elem("a", [attr({href: item.url, target: "_blank"}), text(item.url)])
 		])),
 	    div(cl("twoside"),
 		elem("label", text("Last Checked: ")),

@@ -88,7 +88,9 @@ export function itemsLoadedEvent(length) {
 }
 
 export function itemUpdatedEvent(item) {
-    state.currentItem = item;
+    if (item !== undefined) {
+	state.currentItem = item;
+    }
     state.screen = Screens.browse;
     try_render();
 }
@@ -286,7 +288,7 @@ function addIntegerChange(changes, key, data) {
 	changes[key] = parseInt(value);
 }
 
-Model.init();
+Model.init(state.selection);
 
 document.addEventListener("keydown", (e) => {
     if (state.screen != Screens.browse)
@@ -297,13 +299,13 @@ document.addEventListener("keydown", (e) => {
     case 'N':
 	e.preventDefault();
 	actionPreamble();
-	Model.forwardItem();
+	Model.forward(state.currentItem, state.selection);
 	break;
     case 'p':
     case 'P':
 	e.preventDefault();
 	actionPreamble();
-	Model.backwardItem();
+	Model.backward(state.currentItem, state.selection);
 	break;
     default:
 	may_render();
@@ -311,14 +313,14 @@ document.addEventListener("keydown", (e) => {
 });
 
 document.addEventListener("visibilitychange", (e) => {
-    if (elementDirty())
+    if (elementDirty()) {
 	return;
-    if (document.hidden) {
-	Model.shutdown("info", "Shutdown due to inactivity");
-    } else {
+    } else if (document.hidden && state.screen == Screens.browse) {
+	    Model.shutdown("info", "Shutdown due to inactivity");
+    } else if (state.screen = Screens.shutdown) {
 	state.screen = Screens.browse;
 	state.alert.text = "";
 	state.alert.type = "info";
-	Model.init();
+	Model.init(state.selection);
     }
 });
