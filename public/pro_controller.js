@@ -317,7 +317,7 @@ document.addEventListener("visibilitychange", (e) => {
 	return;
     } else if (document.hidden && state.screen == Screens.browse) {
 	    Model.shutdown("info", "Shutdown due to inactivity");
-    } else if (state.screen = Screens.shutdown) {
+    } else if (state.screen == Screens.shutdown) {
 	state.screen = Screens.browse;
 	state.alert.text = "";
 	state.alert.type = "info";
