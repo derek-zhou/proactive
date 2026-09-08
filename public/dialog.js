@@ -37,7 +37,7 @@ function interval_string(interval) {
     case 365:
 	return "yearly";
     default:
-	return "randomly";
+	return `every ${interval} days`;
     }
 }
 
@@ -47,30 +47,26 @@ function trash_dialog(item) {
 	Controller.resetDialogEvent,
 	"Are you sure you want to delete this item?",
 	[
-	    div(cl("field", "long"),
-		elem("label", [
-		    text("URL: "),
-		    elem("span", [
-			cl("focus"),
-			text(item.url)
-		    ])
+	    div(cl("twoside"),
+		elem("label", text("URL: ")),
+		elem("span", [
+		    cl("value"),
+		    elem("a", [attr({href: item.url}), text(item.url)])
 		])),
-	    div(cl("field", "long"),
-		elem("label", [
-		    text("Last checked: "),
-		    elem("span", [
-			cl("focus"),
-			text(item.lastChecked.to_string())
-		])
+	    div(cl("twoside"),
+		elem("label", text("Last Checked: ")),
+		elem("span", [
+		    cl("value"),
+		    text(item.lastChecked.toString())
 		])),
-	    div(cl("field", "long"),
-		elem("label", [
-		    text("Check interval: "),
-		    elem("span", [
-			cl("focus"),
-			text(interval_string(item.checkInterval))
-		    ])
-		]))
+	    div(cl("twoside"),
+		elem("label", text("Check interval: ")),
+		elem("span", [
+		    cl("value"),
+		    text(interval_string(item.checkInterval))
+		])),
+	    div(cl("twoside"), elem("label", text("Note to myself: "))),
+	    div(cl("line"), div(cl("value"), text(item.note)))
 	]
     );
 }

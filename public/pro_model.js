@@ -27,7 +27,7 @@ async function cb_init(prev) {
     db = await openDB("Proactive", 1, (db) => {
 	Items.upgrade(db);
     });
-    let lenth = await Items.load(db);
+    let length = await Items.load(db);
     itemsLoadedEvent(length);
     let item = await Items.first(Selections.expired, db);
     itemUpdatedEvent(item);
@@ -104,7 +104,12 @@ async function cb_save(prev, object, changes, selection) {
 	let next = await Items.sensible_next(object.id, selection, db);
 	try {
 	    let id = await Items.update(object, changes, db);
-	    itemUpdatedEvent(next);
+	    if (next) {
+		itemUpdatedEvent(next);
+	    } else {
+		let item = await Items.first(selection, db);
+		itemUpdatedEvent(item);
+	    }
 	    return id;
 	} catch (e) {
 	    if (e instanceof DOMException) {
@@ -135,7 +140,7 @@ async function cb_remove(prev, current, selection) {
 	return;
 
     let next = await Items.sensible_next(current.id, selection, db);
-    await Items.remove(current, db);
+    await Items.remove(current.id, db);
     itemUpdatedEvent(next);
 }
 

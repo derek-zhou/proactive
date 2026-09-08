@@ -30,7 +30,6 @@ export const Selections = {
 var state = {
     screen: Screens.browse,
     selection: Selections.expired,
-    length: 0,
     currentItem: null,
     template: null,
     alert: {
@@ -85,8 +84,7 @@ function actionPreamble() {
 }
 
 export function itemsLoadedEvent(length) {
-    state.length = length;
-    try_render();
+    console.log(`${length} items loaded`);
 }
 
 export function itemUpdatedEvent(item) {
@@ -221,7 +219,7 @@ export function clickYearlyEvent(e) {
 export function clickSnoozeEvent(e) {
     e.preventDefault();
     actionPreamble();
-    Model.save(state.currentItem, {lastChecked: new Date()});
+    Model.save(state.currentItem, {lastChecked: new Date()}, state.selection);
     try_render();
 }
 
@@ -262,9 +260,9 @@ export function submitEditEvent(e) {
     actionPreamble();
     let data = new FormData(e.currentTarget);
     let changes = {};
-    addChanges(changes, "url", data);
-    addChanges(changes, "note", data);
-    addChanges(changes, "checkInterval", data);
+    addStringChange(changes, "url", data);
+    addStringChange(changes, "note", data);
+    addIntegerChange(changes, "checkInterval", data);
     Model.save(state.template, changes, state.selection);
     try_render();
 }
@@ -276,10 +274,16 @@ export function submitRemoveEvent(e) {
     try_render();
 }
 
-function addChange(changes, key, data) {
-    value = data.get(key);
+function addStringChange(changes, key, data) {
+    let value = data.get(key);
     if (value)
 	changes[key] = value;
+}
+
+function addIntegerChange(changes, key, data) {
+    let value = data.get(key);
+    if (value)
+	changes[key] = parseInt(value);
 }
 
 Model.init();

@@ -38,11 +38,11 @@ function selectExpired(threshold) {
 	let node = summaries.get(i);
 	let expired_date = addDays(node.lastChecked, node.checkInterval);
 	if (expired_date < threshold) {
-	    map.put(i, expired_date);
+	    map.set(i, expired_date);
 	}
     }
 
-    let list = Array.from(map.keys);
+    let list = Array.from(map.keys());
     list.sort((a, b) => map.get(a) - map.get(b));
     return list;
 }
@@ -57,11 +57,11 @@ function selectInterval(interval) {
 	let node = summaries.get(i);
 	let expired_date = addDays(node.lastChecked, node.checkInterval);
 	if (node.checkInterval == interval) {
-	    map.put(i, expired_date);
+	    map.set(i, expired_date);
 	}
     }
 
-    let list = Array.from(map.keys);
+    let list = Array.from(map.keys());
     list.sort((a, b) => map.get(a) - map.get(b));
     return list;
 }
@@ -106,15 +106,20 @@ async function next(cursor, selection, db) {
 	    found = true;
 	}
     }
-    return null;
+    if (found)
+	return null;
+    else
+	return undefined;
 }
 
 async function previous(cursor, selection, db) {
     let list = Selection[selection]();
+    let found = false;
     let pre = null;
 
     for (const id of list) {
 	if (cursor == id) {
+	    found = true;
 	    break;
 	} else {
 	    pre = id;
@@ -124,8 +129,10 @@ async function previous(cursor, selection, db) {
     if (pre != null) {
 	// getObject is async
 	return getObject(db, Store, pre);
-    } else {
+    } else if (found) {
 	return null;
+    } else {
+	return undefined;
     }
 }
 
@@ -149,8 +156,10 @@ async function sensible_next(cursor, selection, db) {
     if (pre != null) {
 	// getObject is async
 	return getObject(db, Store, pre);
-    } else {
+    } else if (found) {
 	return null;
+    } else {
+	return undefined;
     }
 }
 
@@ -160,12 +169,12 @@ async function remove(cursor, db) {
 }
 
 async function add(changes, db) {
-    let item = {lastChanged: new Date()};
+    let item = {lastChecked: new Date()};
     for (const prop in changes) {
 	item[prop] = changes[prop];
     }
     let id = await addObject(db, Store, item);
-    summaries.put(id, {lastChecked: item.lastChecked, checkInterval: item.checkInterval});
+    summaries.set(id, {lastChecked: item.lastChecked, checkInterval: item.checkInterval});
     item.id = id;
     return id;
 }
@@ -175,7 +184,7 @@ async function update(item, changes, db) {
 	item[prop] = changes[prop];
     }
     let id = await putObject(db, Store, item);
-    summaries.put(id, {lastChecked: item.lastChecked, checkInterval: item.checkInterval});
+    summaries.set(id, {lastChecked: item.lastChecked, checkInterval: item.checkInterval});
     item.id = id;
     return id;
 }
@@ -187,7 +196,7 @@ async function load(db) {
 
     while (cursor) {
 	let item = cursor.value;
-	summaries.put(item.id, {lastChecked: item.lastChecked, checkInterval: item.checkInterval});
+	summaries.set(item.id, {lastChecked: item.lastChecked, checkInterval: item.checkInterval});
 	count = count + 1;
 	cursor = await continueCursor(cursor);
     }

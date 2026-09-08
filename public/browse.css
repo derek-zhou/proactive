@@ -1,3 +1,10 @@
+a {
+    color: RoyalBlue;
+}
+a:focus,
+a:hover {
+    color: SteelBlue;
+}
 h2 {
     margin-left: 2rem;
     margin-top: 1rem;
@@ -14,28 +21,38 @@ div.browser {
 div.content {
     flex-grow: 1;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 div.tablist {
-    width: 20rem;
+    width: 20%;
     display: flex;
     flex-direction: column;
     padding-top: 2rem;
 }
 div.tablist button.tab {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    color: Darkorchid;
+    text-align: left;
+    border-color: SteelBlue;
+    border-left-width: 0.15rem;
 }
 div.tablist button.tab[disabled] {
     pointer-events: none;
     cursor: default;
+    color: SteelBlue;
+    border-top-width: 0.15rem;
+    border-bottom-width: 0.15rem;
+    border-right-width: 0.15rem;
+    border-left-width: 0rem;
 }
 div.twoside {
     margin-bottom: 0.5rem;
     display: flex;
     width: 100%;
+    gap: 0.5rem;
     flex-direction: row;
 }
 div.line {
@@ -43,16 +60,14 @@ div.line {
     width: 100%;
 }
 div.twoside label {
-    width: 20rem;
+    width: 25%;
     text-align: right;
 }
 div.twoside span.value {
-    flex-grow: 1;
-    font-weight: 700;
     font-style: italic;
 }
 div.line div.value {
-    flex-grow: 1;
-    font-weight: 700;
     font-style: italic;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }

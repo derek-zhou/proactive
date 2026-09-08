@@ -15,25 +15,25 @@ function item_view(item, selection) {
     if (item) {
 	return [
 	    elem("h2", text(`A ${selection} task`)),
-	    div(cl("line"),
+	    div(cl("twoside"),
 		elem("label", text("Url: ")),
 		elem("span", [
-		    cl("value",
-		       elem("a", [attr({href: item.url}), text(item.url)]))
+		    cl("value"),
+		    elem("a", [attr({href: item.url}), text(item.url)])
 		])),
-	    div(cl("line"),
+	    div(cl("twoside"),
 		elem("label", text("Last Checked: ")),
 		elem("span", [
 		    cl("value"),
-		    text(item.lastChecked.to_string())
+		    text(item.lastChecked.toString())
 		])),
-	    div(cl("line"),
+	    div(cl("twoside"),
 		elem("label", text("Check interval: ")),
 		elem("span", [
 		    cl("value"),
-		    text(interval_sgtring(item.checkInterval))
+		    text(interval_string(item.checkInterval))
 		])),
-	    div(cl("line"), elem("label", text("Note to myself: "))),
+	    div(cl("twoside"), elem("label", text("Note to myself: "))),
 	    div(cl("line"), div(cl("value"), text(item.note)))
 	];
     } else if (selection == Controller.Selections.expired) {
@@ -56,22 +56,8 @@ function interval_string(interval) {
     case 365:
 	return "yearly";
     default:
-	return "randomly";
+	return `every ${interval} days`;
     }
-}
-
-function item_detail(item) {
-    return [
-	div(cl("line"), elem("a", [attr({class: "url", href: item.url}), text(item.url)])),
-	div(cl("line"),
-	    elem("span", [cl("item-attr"), text("Last checked")]),
-	    elem("span", [cl("item-value"), text(item.lastChecked.to_string())])),
-	div(cl("line"),
-	    elem("span", [cl("item-attr"), text("Check interval")]),
-	    elem("span", [cl("item-value"), text(interval_sgtring(item.checkInterval))])),
-	div(cl("line"), text("Note to myself")),
-	div(cl("note"), text(item.note))
-    ];
 }
 
 function tab_attr(tab, selected) {

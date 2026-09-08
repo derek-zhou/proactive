@@ -1,3 +1,10 @@
+a {
+    color: RoyalBlue;
+}
+a:focus,
+a:hover {
+    color: SteelBlue;
+}
 h2 {
     margin-left: 2rem;
     margin-top: 1rem;
@@ -27,6 +34,14 @@ div.twoside label {
     width: 40%;
     justify-content: right;
     display: flex;
+}
+div.twoside span.value {
+    font-style: italic;
+}
+div.line div.value {
+    font-style: italic;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 form hr {
     margin-bottom: 0.5rem;
@@ -95,28 +110,24 @@ form input.short {
     width: 6rem;
 }
 form input[type=number] {
-    width: 4rem;
     border-radius: 0.25rem;
     border-width: 1px;
     border-color: LightSlateGray;
     line-height: 1.625;
 }
 form input[type=text] {
-    width: 12rem;
     border-radius: 0.25rem;
     border-width: 1px;
     border-color: LightSlateGray;
     line-height: 1.625;
 }
 form input[type=email] {
-    width: 20rem;
     border-radius: 0.25rem;
     border-width: 1px;
     border-color: LightSlateGray;
     line-height: 1.625;
 }
 form input[type=password] {
-    width: 10rem;
     border-radius: 0.25rem;
     border-width: 1px;
     border-color: Orchid;
