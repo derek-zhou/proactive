@@ -29,6 +29,11 @@ div.tablist {
     flex-direction: column;
     padding-top: 2rem;
 }
+div.tablist div.filler {
+    height: 1rem;
+    border-color: SteelBlue;
+    border-left-width: 0.15rem;
+}
 div.tablist button.tab {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;

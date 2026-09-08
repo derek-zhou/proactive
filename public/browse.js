@@ -53,6 +53,7 @@ function tab_attr(tab, selected) {
 
 function tab_list(selection) {
     return [
+	div(cl("filler")),
 	elem("button", [
 	    tab_attr("expired", selection),
 	    hook("click", Controller.clickExpiredEvent),
@@ -82,6 +83,7 @@ function tab_list(selection) {
 	    tab_attr("yearly", selection),
 	    hook("click", Controller.clickYearlyEvent),
 	    text("Yearly")
-	])
+	]),
+	div(cl("filler")),
     ];
 }
