@@ -12,7 +12,7 @@ Furthermore, responding to notifications and email reminders is reactive and mak
 
 ## Design
 
-Proactive is written as a javascript SPA with no backend, all user data stored in the browser with indexed DB. 
+Proactive is written as a javascript SPA with no backend, all user data stored in the browser with indexed DB. There is also a save/restore function to help moving data from one computer to another.
 
 Different sites need different check-in intervals, from weekly for forums, to monthly for banks. Some should be checked annually, for stuffs that moved at a slow pace. Proactive organizes sites into 5 bins of daily, weekly, monthly, quarterly, and yearly, and show a much reduced list of sites whose "last visited" time stamp have expired according to the preset.
 
