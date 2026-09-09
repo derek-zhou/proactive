@@ -169,9 +169,6 @@ async function sensibleNext(cursor, selection, db) {
     if (pre != null) {
 	// getObject is async
 	return getObject(db, Store, pre);
-    } else if (list.length > 0) {
-	// getObject is async
-	return getObject(db, Store, list[0]);
     } else {
 	return null;
     }

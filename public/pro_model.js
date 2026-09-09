@@ -9,7 +9,7 @@ import {openDB, deleteDB} from './index_db.js';
 import * as Items from './items.js';
 
 // events I post to the controller
-import {alertEvent, itemsLoadedEvent, shutDownEvent,
+import {alertEvent, itemsLoadedEvent, shutDownEvent, ensureItemEvent,
 	itemUpdatedEvent, Selections} from "./pro_controller.js";
 
 // exported client side functions. all return promises or null
@@ -104,15 +104,10 @@ async function cb_save(prev, object, changes, selection) {
     if (object.id) {
 	// updating current item, must figure out the next item from current before the update
 	let next = await Items.sensibleNext(object.id, selection, db);
+	let id;
+
 	try {
-	    let id = await Items.update(object, changes, db);
-	    if (next) {
-		itemUpdatedEvent(next);
-	    } else {
-		let item = await Items.first(selection, db);
-		itemUpdatedEvent(item);
-	    }
-	    return id;
+	    id = await Items.update(object, changes, db);
 	} catch (e) {
 	    if (e instanceof DOMException) {
 		alertEvent("error", "The item '" + changes.url +"' already exists");
@@ -120,11 +115,15 @@ async function cb_save(prev, object, changes, selection) {
 		throw e;
 	    }
 	}
+	itemUpdatedEvent(next);
+	ensureItemEvent();
+	return id;
     } else {
 	// adding an item, no need to figure out the next item. might throw
 	try {
 	    let id = await Items.add(changes, db);
 	    alertEvent("info", "The item '" + changes.url +"' is added");
+	    ensureItemEvent();
 	    return id;
 	} catch (e) {
 	    if (e instanceof DOMException) {
@@ -208,6 +207,7 @@ async function cb_restoreAll(prev, handle) {
 	}
     }
     alertEvent("info", "Successfully restoring tasks.");
+    ensureItemEvent();
 }
 
 /*

@@ -93,6 +93,13 @@ export function itemUpdatedEvent(item) {
     try_render();
 }
 
+// this event is triggered where new items has been added to the database
+export function ensureItemEvent() {
+    if (state.currentItem)
+	return;
+    Model.first(state.selection);
+}
+
 export function alertEvent(type, text) {
     state.alert.type = type;
     state.alert.text = text;
