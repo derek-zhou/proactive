@@ -13,8 +13,8 @@ import {openCursor, openCursorFromIndex, continueCursor, getObject, getObjectFro
 	addObject, putObject, deleteObject} from './index_db.js';
 
 // public apis
-export {upgrade, load, first, next, previous, remove, add, update, sensibleNext, intervalString,
-       IntervalChoices};
+export {upgrade, load, first, next, previous, remove, add, update, sensibleNext, allTasks,
+	intervalString, IntervalChoices};
 
 const Store = "items";
 const UrlIndex = "url";
@@ -177,6 +177,18 @@ async function sensibleNext(cursor, selection, db) {
     }
 }
 
+async function allTasks(db) {
+    let cursor = await openCursor(db, Store, IDBKeyRange.lowerBound(0), "next");
+    let list = [];
+
+    while (cursor) {
+	let item = cursor.value;
+	list.push(item);
+	cursor = await continueCursor(cursor);
+    }
+    return list;
+}
+
 async function remove(cursor, db) {
     await deleteObject(db, Store, cursor);
     summaries.delete(cursor);
@@ -185,7 +197,14 @@ async function remove(cursor, db) {
 async function add(changes, db) {
     let item = {lastChecked: new Date(), url: "", note: "", checkInterval: 7};
     for (const prop in changes) {
-	item[prop] = changes[prop];
+	if (prop == "lastChecked") {
+	    // force type conversion for the properties that require types other than string
+	    item.lastChecked = new Date(changes.lastChecked);
+	} else if (prop == "checkInterval") {
+	    item.checkInterval = parseInt(changes.checkInterval);
+	} else {
+	    item[prop] = changes[prop];
+	}
     }
     let id = await addObject(db, Store, item);
     summaries.set(id, {lastChecked: item.lastChecked, checkInterval: item.checkInterval});

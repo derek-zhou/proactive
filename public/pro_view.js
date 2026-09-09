@@ -66,6 +66,16 @@ function navbar(state) {
 	    div(cl("toolbar"),
 		elem("button", [
 		    cl("button"),
+		    hook("click", Controller.clickSaveEvent),
+		    text("📤")
+		]),
+		elem("button", [
+		    cl("button"),
+		    hook("click", Controller.clickRestoreEvent),
+		    text("📥")
+		]),
+		elem("button", [
+		    cl("button"),
 		    hook("click", Controller.clickNewEvent),
 		    text("➕")
 		]),

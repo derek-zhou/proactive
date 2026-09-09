@@ -13,7 +13,8 @@ export const Screens = {
     browse: 1,
     shutdown: 2,
     trash: 3,
-    edit: 4
+    edit: 4,
+    restore: 5
 };
 
 // screen is fundimental content shown in the window
@@ -253,9 +254,32 @@ export function clickNewEvent(e) {
     }
 }
 
+export function clickSaveEvent(e) {
+    e.preventDefault();
+    actionPreamble();
+    Model.saveAll();
+}
+
+export function clickRestoreEvent(e) {
+    e.preventDefault();
+    actionPreamble();
+    state.screen = Screens.restore;
+    try_render();
+}
+
 export function resetDialogEvent(e) {
     e.preventDefault();
     actionPreamble();
+    state.screen = Screens.browse;
+    try_render();
+}
+
+export function submitRestoreEvent(e) {
+    e.preventDefault();
+    actionPreamble();
+    let data = new FormData(e.currentTarget);
+    let handle = data.get("handle");
+    Model.restoreAll(handle);
     state.screen = Screens.browse;
     try_render();
 }
@@ -265,9 +289,9 @@ export function submitEditEvent(e) {
     actionPreamble();
     let data = new FormData(e.currentTarget);
     let changes = {lastChecked: new Date()};
-    addStringChange(changes, "url", data);
-    addStringChange(changes, "note", data);
-    addIntegerChange(changes, "checkInterval", data);
+    addChange(changes, "url", data);
+    addChange(changes, "note", data);
+    addChange(changes, "checkInterval", data);
     Model.save(state.template, changes, state.selection);
     state.screen = Screens.browse;
     try_render();
@@ -281,14 +305,9 @@ export function submitRemoveEvent(e) {
     try_render();
 }
 
-function addStringChange(changes, key, data) {
+function addChange(changes, key, data) {
     if (data.has(key))
 	changes[key] = data.get(key);
-}
-
-function addIntegerChange(changes, key, data) {
-    if (data.has(key))
-	changes[key] = parseInt(data.get(key));
 }
 
 Model.init(state.selection);

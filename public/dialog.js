@@ -11,6 +11,8 @@ export function dialog(state) {
 	return trash_dialog(state.currentItem);
     case Controller.Screens.shutdown:
 	return reload_dialog();
+    case Controller.Screens.restore:
+	return restore_dialog();
     default:
 	return [];
     }
@@ -52,6 +54,17 @@ function trash_dialog(item) {
 	    div(cl("twoside"), elem("label", text("Note to myself: "))),
 	    div(cl("line"), div(cl("value"), text(item.note)))
 	]
+    );
+}
+
+function restore_dialog() {
+    return custom_form(
+	Controller.submitRestoreEvent,
+	Controller.resetDialogEvent,
+	"Restoring from roastidio.us",
+	div(cl("twoside"),
+	    elem("label", text("Handle: ")),
+	    elem("input", attr({type: "text", name: "handle", class:"long"})))
     );
 }
 

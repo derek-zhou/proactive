@@ -13,8 +13,10 @@ import {alertEvent, itemsLoadedEvent, shutDownEvent,
 	itemUpdatedEvent, Selections} from "./pro_controller.js";
 
 // exported client side functions. all return promises or null
-export {init, shutdown, clearData, first, forward, backward, save, remove};
+export {init, shutdown, clearData, first, forward, backward, save, remove,
+	saveAll, restoreAll};
 
+const Stash = "https://roastidio.us/stash";
 /*
  * callback side state and entry points
  */
@@ -144,6 +146,70 @@ async function cb_remove(prev, current, selection) {
     itemUpdatedEvent(next);
 }
 
+async function cb_saveAll(prev) {
+    await prev;
+    if (!db)
+	return;
+
+    let tasks = await Items.allTasks(db);
+    let buffer = JSON.stringify({tasks: tasks});
+    try {
+	let response = await fetch(Stash, {
+	    method: "POST",
+	    headers: {
+		'Accept': 'application/json',
+		'Content-Type': 'application/octet-stream'
+	    },
+	    body: buffer,
+	    mode: "cors"
+	});
+	if (response.status != 200) {
+	    alertEvent("error", "Saving data failed with status: " + response.status);
+	    return;
+	}
+	let data = await response.json();
+	let handle = data.handle;
+	alertEvent("info", `Your data is saved and can be restored with the handle: ${handle}`);
+    } catch (e) {
+	console.error(`${e}`);
+	alertEvent("error", "Saving data failed");
+    }
+}
+
+async function cb_restoreAll(prev, handle) {
+    let data;
+
+    await prev;
+    if (!db)
+	return;
+
+    try {
+	let response = await fetch(Stash + "/" + handle, {mode: "cors"});
+	if (response.status != 200) {
+	    alertEvent("error", "Restoring tasks failed with status: " + response.status);
+	    return;
+	}
+	data = await response.json();
+    } catch (e) {
+	alertEvent("error", "Restoring tasks failed");
+	return;
+    }
+
+    for (let task of data.tasks.values()) {
+	// adding an item, duplicates are ok
+	try {
+	    let id = await Items.add(task, db);
+	} catch (e) {
+	    if (e instanceof DOMException) {
+		console.warn(`The item ${task.url} already exists`);
+	    } else {
+		throw e;
+	    }
+	}
+    }
+    alertEvent("info", "Successfully restoring tasks.");
+}
+
 /*
  * Client side state which is a promise
  * any client side function will await and replace the state
@@ -181,4 +247,12 @@ function save(template, changes, selection) {
 
 function remove(current, selection) {
     state = cb_remove(state, current, selection);
+}
+
+function saveAll() {
+    state = cb_saveAll(state);
+}
+
+function restoreAll(handle) {
+    state = cb_restoreAll(state, handle);
 }
