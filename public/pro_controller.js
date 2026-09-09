@@ -88,14 +88,8 @@ export function itemsLoadedEvent(length) {
 }
 
 export function itemUpdatedEvent(item) {
-    if (item !== undefined) {
-	state.currentItem = item;
-        state.screen = Screens.browse;
-	try_render();
-    } else if (!state.currentItem) {
-	// try harder to show something
-	Model.first(state.selection);
-    }
+    state.currentItem = item;
+    try_render();
 }
 
 export function alertEvent(type, text) {
@@ -176,6 +170,7 @@ export function clickReloadEvent(e) {
 export function clickExpiredEvent(e) {
     e.preventDefault();
     actionPreamble();
+    state.screen = Screens.browse;
     state.selection = Selections.expired;
     Model.first(state.selection);
     try_render();
@@ -184,6 +179,7 @@ export function clickExpiredEvent(e) {
 export function clickDailyEvent(e) {
     e.preventDefault();
     actionPreamble();
+    state.screen = Screens.browse;
     state.selection = Selections.daily;
     Model.first(state.selection);
     try_render();
@@ -192,6 +188,7 @@ export function clickDailyEvent(e) {
 export function clickWeeklyEvent(e) {
     e.preventDefault();
     actionPreamble();
+    state.screen = Screens.browse;
     state.selection = Selections.weekly;
     Model.first(state.selection);
     try_render();
@@ -200,6 +197,7 @@ export function clickWeeklyEvent(e) {
 export function clickMonthlyEvent(e) {
     e.preventDefault();
     actionPreamble();
+    state.screen = Screens.browse;
     state.selection = Selections.monthly;
     Model.first(state.selection);
     try_render();
@@ -208,6 +206,7 @@ export function clickMonthlyEvent(e) {
 export function clickQuarterlyEvent(e) {
     e.preventDefault();
     actionPreamble();
+    state.screen = Screens.browse;
     state.selection = Selections.quarterly;
     Model.first(state.selection);
     try_render();
@@ -216,6 +215,7 @@ export function clickQuarterlyEvent(e) {
 export function clickYearlyEvent(e) {
     e.preventDefault();
     actionPreamble();
+    state.screen = Screens.browse;
     state.selection = Selections.yearly;
     Model.first(state.selection);
     try_render();
@@ -247,7 +247,7 @@ export function clickNewEvent(e) {
     e.preventDefault();
     actionPreamble();
     if (state.screen != Screens.edit) {
-	state.template = null;
+	state.template = {};
 	state.screen = Screens.edit;
 	try_render();
     }
@@ -264,11 +264,12 @@ export function submitEditEvent(e) {
     e.preventDefault();
     actionPreamble();
     let data = new FormData(e.currentTarget);
-    let changes = {};
+    let changes = {lastChecked: new Date()};
     addStringChange(changes, "url", data);
     addStringChange(changes, "note", data);
     addIntegerChange(changes, "checkInterval", data);
     Model.save(state.template, changes, state.selection);
+    state.screen = Screens.browse;
     try_render();
 }
 
@@ -276,6 +277,7 @@ export function submitRemoveEvent(e) {
     e.preventDefault();
     actionPreamble();
     Model.remove(state.currentItem, state.selection);
+    state.screen = Screens.browse;
     try_render();
 }
 
@@ -290,6 +292,20 @@ function addIntegerChange(changes, key, data) {
 }
 
 Model.init(state.selection);
+
+// do I have a incoming api call to add a task
+if (location.search) {
+    let params = new URLSearchParams(location.search.substring(1));
+    let str = params.get("url");
+    // clear location so it is cleaner
+    let url = new URL("/", document.location.href);
+    history.pushState({}, "", url.href);
+    if (str) {
+	state.template = {url: str};
+	state.screen = Screens.edit;
+	try_render();
+    }
+}
 
 document.addEventListener("keydown", (e) => {
     if (state.screen != Screens.browse)

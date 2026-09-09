@@ -99,7 +99,7 @@ async function cb_save(prev, object, changes, selection) {
     if (!db)
 	return;
 
-    if (object) {
+    if (object.id) {
 	// updating current item, must figure out the next item from current before the update
 	let next = await Items.sensibleNext(object.id, selection, db);
 	try {
@@ -123,8 +123,6 @@ async function cb_save(prev, object, changes, selection) {
 	try {
 	    let id = await Items.add(changes, db);
 	    alertEvent("info", "The item '" + changes.url +"' is added");
-	    // just go back to what was there before
-	    itemUpdatedEvent(undefined);
 	    return id;
 	} catch (e) {
 	    if (e instanceof DOMException) {

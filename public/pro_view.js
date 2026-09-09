@@ -120,7 +120,7 @@ function actionBar(item) {
 	    cl("button"),
 	    item ? [] : attr({disabled: true}),
 	    hook("click", Controller.clickSnoozeEvent),
-	    text("⏰")
+	    text("✔")
 	]),
 	elem("button", [
 	    cl("button"),

@@ -61,28 +61,28 @@ function check_interval_options(default_value) {
 }
 
 function default_url(template) {
-    if (template)
+    if (template.url)
 	return template.url;
     else
 	return "";
 }
 
 function default_check_interval(template) {
-    if (template)
+    if (template.checkInterval)
 	return template.checkInterval;
     else
 	return 7;
 }
 
 function default_note(template) {
-    if (template)
+    if (template.note)
 	return template.note;
     else
 	return "";
 }
 
 function edit_title(template) {
-    if (template)
+    if (template.id)
 	return "Modifying a task";
     else
 	return "Adding a task";

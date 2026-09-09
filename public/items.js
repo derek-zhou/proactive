@@ -126,20 +126,15 @@ async function next(cursor, selection, db) {
 	    found = true;
 	}
     }
-    if (found)
-	return null;
-    else
-	return undefined;
+    return null;
 }
 
 async function previous(cursor, selection, db) {
     let list = Selection[selection]();
-    let found = false;
     let pre = null;
 
     for (const id of list) {
 	if (cursor == id) {
-	    found = true;
 	    break;
 	} else {
 	    pre = id;
@@ -149,10 +144,8 @@ async function previous(cursor, selection, db) {
     if (pre != null) {
 	// getObject is async
 	return getObject(db, Store, pre);
-    } else if (found) {
-	return null;
     } else {
-	return undefined;
+	return null;
     }
 }
 
@@ -176,10 +169,11 @@ async function sensibleNext(cursor, selection, db) {
     if (pre != null) {
 	// getObject is async
 	return getObject(db, Store, pre);
-    } else if (found) {
-	return null;
+    } else if (list.length > 0) {
+	// getObject is async
+	return getObject(db, Store, list[0]);
     } else {
-	return undefined;
+	return null;
     }
 }
 

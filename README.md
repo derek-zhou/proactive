@@ -16,6 +16,14 @@ Proactive is written as a javascript SPA with no backend, all user data stored i
 
 Different sites need different check-in intervals, from weekly for forums, to monthly for banks. Some should be checked annually, for stuffs that moved at a slow pace. Proactive organizes sites into 5 bins of daily, weekly, monthly, quarterly, and yearly, and show a much reduced list of sites whose "last visited" time stamp have expired according to the preset.
 
+To add a task, you can click the (🍼) button then paste in a link. You can also use the this [bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet): 
+
+``` javascript
+javascript:location.href='https://pro.roastidio.us/?url='+encodeURIComponent(window.location.href)
+```
+
+Next time you came across an interesting site, just click the bookmarklet and you are done.
+
 ## Disclaimer
 
 The main branch is hosted on [https://pro.roastidio.us](https://pro.roastidio.us) by me. All are welcome to use my instance. Since the software is free, one can also clone it and host it somewhere else; it is all upto you. 
