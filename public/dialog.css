@@ -31,12 +31,14 @@ div.line {
     width: 100%;
 }
 div.twoside label {
-    width: 40%;
+    width: 25%;
     justify-content: right;
     display: flex;
 }
 div.twoside span.value {
     font-style: italic;
+    max-width: 70%;
+    word-wrap: break-word;
 }
 div.line div.value {
     font-style: italic;
@@ -104,7 +106,7 @@ form select {
     padding-left: 0.25rem;
 }
 form input.long {
-    width: 20rem;
+    flex-grow: 1;
 }
 form input.short {
     width: 6rem;

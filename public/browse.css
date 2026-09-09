@@ -70,6 +70,10 @@ div.twoside label {
 }
 div.twoside span.value {
     font-style: italic;
+    max-width: 75%;
+}
+span.value a{
+    word-wrap: anywhere;
 }
 div.line div.value {
     font-style: italic;
