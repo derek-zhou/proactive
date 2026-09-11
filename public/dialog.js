@@ -64,7 +64,7 @@ function restore_dialog() {
 	"Restoring from roastidio.us",
 	div(cl("twoside"),
 	    elem("label", text("Handle: ")),
-	    elem("input", attr({type: "text", name: "handle", class:"long"})))
+	    elem("input", [cl("long"), attr({type: "text", name: "handle"})]))
     );
 }
 
@@ -110,8 +110,8 @@ function edit_dialog(template) {
 	    div(cl("twoside"),
 		elem("label", text("URL: ")),
 		elem("input", [
-		    attr({type: "text", name: "url",
-		      value: default_url(template), class:"long"})
+		    cl("long"),
+		    attr({type: "text", name: "url", value: default_url(template)})
 		])
 	       ),
 	    div(cl("twoside"),
@@ -158,9 +158,9 @@ function custom_form(submit_action, reset_action, title, inner) {
 }
 
 function submit_button() {
-    return elem("input", [attr({type: "submit", value: "👌", class: "button"})]);
+    return elem("input", [cl("button"), attr({type: "submit", value: "👌"})]);
 }
 
 function reset_button() {
-    return elem("input", [attr({type: "reset", value: "👎", class: "button"})]);
+    return elem("input", [cl("button"), attr({type: "reset", value: "👎"})]);
 }

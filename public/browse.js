@@ -45,41 +45,44 @@ function item_view(item, selection) {
 }
 
 function tab_attr(tab, selected) {
-    if (tab == selected)
-	return attr({disabled: true, class: "tab"});
-    else
-	return attr({class: "tab"});
+    return tab == selected ? attr({disabled: true}) : [];
 }
 
 function tab_list(selection) {
     return [
 	div(cl("filler")),
 	elem("button", [
+	    cl("tab"),
 	    tab_attr("expired", selection),
 	    hook("click", Controller.clickExpiredEvent),
 	    text("Expired")
 	]),
 	elem("button", [
+	    cl("tab"),
 	    tab_attr("daily", selection),
 	    hook("click", Controller.clickDailyEvent),
 	    text("Daily")
 	]),
 	elem("button", [
+	    cl("tab"),
 	    tab_attr("weekly", selection),
 	    hook("click", Controller.clickWeeklyEvent),
 	    text("Weekly")
 	]),
 	elem("button", [
+	    cl("tab"),
 	    tab_attr("monthly", selection),
 	    hook("click", Controller.clickMonthlyEvent),
 	    text("Monthly")
 	]),
 	elem("button", [
+	    cl("tab"),
 	    tab_attr("quarterly", selection),
 	    hook("click", Controller.clickQuarterlyEvent),
 	    text("Quarterly")
 	]),
 	elem("button", [
+	    cl("tab"),
 	    tab_attr("yearly", selection),
 	    hook("click", Controller.clickYearlyEvent),
 	    text("Yearly")

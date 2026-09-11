@@ -61,7 +61,7 @@ function navbar(state) {
 	div(cl("navbar"),
 	    div(elem("a", [
 		attr({href: "index.html"}),
-		elem("img", attr({src: Asset.at("logoImage"), class: "logo"})),
+		elem("img", [cl("logo"), attr({src: Asset.at("logoImage")})]),
 	    ])),
 	    div(cl("toolbar"),
 		elem("button", [
