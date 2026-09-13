@@ -16,24 +16,33 @@ function item_view(item, selection) {
     if (item) {
 	return [
 	    elem("h2", text(`A ${selection} task`)),
-	    div(cl("twoside"),
+	    div(
+		cl("twoside"),
 		elem("label", text("Url: ")),
-		elem("span", [
+		elem(
+		    "span",
 		    cl("value"),
 		    elem("a", [attr({href: item.url, target: "_blank"}), text(item.url)])
-		])),
-	    div(cl("twoside"),
+		)
+	    ),
+	    div(
+		cl("twoside"),
 		elem("label", text("Last Checked: ")),
-		elem("span", [
+		elem(
+		    "span",
 		    cl("value"),
 		    text(item.lastChecked.toString())
-		])),
-	    div(cl("twoside"),
+		)
+	    ),
+	    div(
+		cl("twoside"),
 		elem("label", text("Check interval: ")),
-		elem("span", [
+		elem(
+		    "span",
 		    cl("value"),
 		    text(intervalString(item.checkInterval))
-		])),
+		)
+	    ),
 	    div(cl("twoside"), elem("label", text("Note to myself: "))),
 	    div(cl("line"), div(cl("value"), text(item.note)))
 	];
@@ -51,42 +60,48 @@ function tab_attr(tab, selected) {
 function tab_list(selection) {
     return [
 	div(cl("filler")),
-	elem("button", [
+	elem(
+	    "button",
 	    cl("tab"),
 	    tab_attr("expired", selection),
 	    hook("click", Controller.clickExpiredEvent),
 	    text("Expired")
-	]),
-	elem("button", [
+	),
+	elem(
+	    "button",
 	    cl("tab"),
 	    tab_attr("daily", selection),
 	    hook("click", Controller.clickDailyEvent),
 	    text("Daily")
-	]),
-	elem("button", [
+	),
+	elem(
+	    "button",
 	    cl("tab"),
 	    tab_attr("weekly", selection),
 	    hook("click", Controller.clickWeeklyEvent),
 	    text("Weekly")
-	]),
-	elem("button", [
+	),
+	elem(
+	    "button",
 	    cl("tab"),
 	    tab_attr("monthly", selection),
 	    hook("click", Controller.clickMonthlyEvent),
 	    text("Monthly")
-	]),
-	elem("button", [
+	),
+	elem(
+	    "button",
 	    cl("tab"),
 	    tab_attr("quarterly", selection),
 	    hook("click", Controller.clickQuarterlyEvent),
 	    text("Quarterly")
-	]),
-	elem("button", [
+	),
+	elem(
+	    "button",
 	    cl("tab"),
 	    tab_attr("yearly", selection),
 	    hook("click", Controller.clickYearlyEvent),
 	    text("Yearly")
-	]),
-	div(cl("filler")),
+	),
+	div(cl("filler"))
     ];
 }

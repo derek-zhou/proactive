@@ -1,7 +1,11 @@
 // a functional way to manipulate DOM
-export function replay(subject, script) {
+export function replay() {
+    const subject = arguments[0];
     clear(subject);
-    play(subject, script);
+    for (const one of arguments) {
+	if (one !== subject)
+	    play(subject, one);
+    }
 }
 
 export function hook(type, handler) {
@@ -36,7 +40,7 @@ export function cl() {
 export function style(sheet) {
     return (node) => {
 	let shadow_root = node.shadowRoot;
-	if (!node.shadowRoot) {
+	if (!shadow_root) {
 	    shadow_root = node.attachShadow({ mode: "open" });
 	}
 	shadow_root.adoptedStyleSheets.push(sheet);
@@ -48,14 +52,13 @@ export function text(t) {
     return append(element);
 }
 
-export function graft(element, script) {
-    replay(element, script);
-    return append(element);
-}
-
-export function elem(tag, script) {
+export function elem() {
+    const tag = arguments[0];
     const element = document.createElement(tag);
-    play(element, script);
+    for (const one of arguments) {
+	if (one !== tag)
+	    play(element, one);
+    }
     return append(element);
 }
 

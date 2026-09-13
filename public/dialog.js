@@ -23,7 +23,7 @@ function reload_dialog() {
 	Controller.clickReloadEvent,
 	null,
 	"Proactive is shut down",
-	[elem("p", text("Proactive is shut down. Reload?"))]
+	elem("p", text("Proactive is shut down. Reload?"))
     );
 }
 
@@ -33,24 +33,29 @@ function trash_dialog(item) {
 	Controller.resetDialogEvent,
 	"Are you sure you want to delete this item?",
 	[
-	    div(cl("twoside"),
+	    div(
+		cl("twoside"),
 		elem("label", text("URL: ")),
-		elem("span", [
-		    cl("value"),
-		    text(item.url)
-		])),
-	    div(cl("twoside"),
+		elem("span", cl("value"), text(item.url))
+	    ),
+	    div(
+		cl("twoside"),
 		elem("label", text("Last Checked: ")),
-		elem("span", [
+		elem(
+		    "span",
 		    cl("value"),
 		    text(item.lastChecked.toString())
-		])),
-	    div(cl("twoside"),
+		)
+	    ),
+	    div(
+		cl("twoside"),
 		elem("label", text("Check interval: ")),
-		elem("span", [
+		elem(
+		    "span",
 		    cl("value"),
 		    text(intervalString(item.checkInterval))
-		])),
+		)
+	    ),
 	    div(cl("twoside"), elem("label", text("Note to myself: "))),
 	    div(cl("line"), div(cl("value"), text(item.note)))
 	]
@@ -62,9 +67,11 @@ function restore_dialog() {
 	Controller.submitRestoreEvent,
 	Controller.resetDialogEvent,
 	"Restoring from roastidio.us",
-	div(cl("twoside"),
+	div(
+	    cl("twoside"),
 	    elem("label", text("Handle: ")),
-	    elem("input", [cl("long"), attr({type: "text", name: "handle"})]))
+	    elem("input", cl("long"), attr({type: "text", name: "handle"}))
+	)
     );
 }
 
@@ -107,38 +114,45 @@ function edit_dialog(template) {
 	Controller.resetDialogEvent,
 	edit_title(template),
 	[
-	    div(cl("twoside"),
+	    div(
+		cl("twoside"),
 		elem("label", text("URL: ")),
-		elem("input", [
+		elem(
+		    "input",
 		    cl("long"),
 		    attr({type: "text", name: "url", value: default_url(template)})
-		])
-	       ),
-	    div(cl("twoside"),
+		)
+	    ),
+	    div(
+		cl("twoside"),
 		elem("label", text("Check interval:")),
-		elem("select", [
+		elem(
+		    "select",
 		    attr({name: "checkInterval"}),
 		    check_interval_options(default_check_interval(template))
-		])
-	       ),
+		)
+	    ),
 	    div(cl("twoside"), elem("label", text("Note to myself: "))),
-	    div(cl("line"),
-		elem("textarea", [
+	    div(
+		cl("line"),
+		elem(
+		    "textarea",
 		    attr({name: "note"}),
 		    text(default_note(template))
-		])
-	       )
+		)
+	    )
 	]
     );
 }
 
 function build_options(options, default_value) {
     return options.map((each) =>
-	elem("option", [
+	elem(
+	    "option",
 	    attr({value: each.value}),
 	    each.value == default_value ? attr({selected: true}) : [],
 	    text(each.text)
-	])
+	)
     );
 }
 
@@ -146,22 +160,25 @@ function custom_form(submit_action, reset_action, title, inner) {
     return div(
 	style(Asset.at("preflightCSS")),
 	style(Asset.at("dialogCSS")),
-	elem("form", [
+	elem(
+	    "form",
 	    hook("submit", submit_action),
 	    reset_action ? hook("reset", reset_action) : [],
 	    elem("h2", text(title)),
 	    elem("section", inner),
-	    div(cl("toolbar"),
+	    div(
+		cl("toolbar"),
 		submit_button(),
-		reset_action ? reset_button() : [])
-	])
+		reset_action ? reset_button() : []
+	    )
+	)
     );
 }
 
 function submit_button() {
-    return elem("input", [cl("button"), attr({type: "submit", value: "👌"})]);
+    return elem("input", cl("button"), attr({type: "submit", value: "👌"}));
 }
 
 function reset_button() {
-    return elem("input", [cl("button"), attr({type: "reset", value: "👎"})]);
+    return elem("input", cl("button"), attr({type: "reset", value: "👎"}));
 }

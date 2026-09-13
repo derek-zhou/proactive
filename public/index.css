@@ -30,7 +30,7 @@ a:hover {
     color: Crimson;
 }
 
-div.viewport {
+body {
     position: relative;
     min-height: 100vh;
     display: flex;
@@ -135,7 +135,7 @@ div.actionbar .button.danger {
     html {
 	font-size: 18px;
     }
-    div.viewport {
+    body {
 	max-width: 1024px;
 	margin-left: auto;
 	margin-right: auto;

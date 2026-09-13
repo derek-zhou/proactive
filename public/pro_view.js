@@ -8,15 +8,14 @@ import {replay, hook, elem, text, attr, cl, div} from "./domfun.js";
 export function render(state) {
     document.title = render_title(state);
     replay(
-	document.body, div(
-	    cl("viewport"),
-	    hook("touchstart", Controller.touchStartEvent),
-	    hook("touchmove", Controller.touchMoveEvent),
-	    alert(state),
-	    navbar(state),
-	    dialog(state),
-	    content(state),
-	    footer(state))
+	document.body,
+	hook("touchstart", Controller.touchStartEvent),
+	hook("touchmove", Controller.touchMoveEvent),
+	alert(state),
+	navbar(state),
+	dialog(state),
+	content(state),
+	footer(state)
     );
 }
 
@@ -34,62 +33,77 @@ function render_title(state) {
 }
 
 function footer(state) {
-    return [
+    return div(
+	cl("footer"),
 	div(
-	    cl("footer"),
-	    div(cl("left-half"),
-		elem("a", [
-		    attr({
-			href: "https://roastidio.us/roast",
-			referrerpolicy: "no-referrer-when-downgrade"
-		    }),
-		    text("Roast me at Roastidious")
-		])),
-	    div(cl("right-half"),
-		elem("a", [
-		    attr({
-			href: "https://github.com/derek-zhou/proactive",
-			referrerpolicy: "no-referrer-when-downgrade"
-		    }),
-		    text("Fork me on GitHub")
-		]))
-	)];
+	    cl("left-half"),
+	    elem(
+		"a",
+		attr({
+		    href: "https://roastidio.us/roast",
+		    referrerpolicy: "no-referrer-when-downgrade"
+		}),
+		text("Roast me at Roastidious")
+	    )
+	),
+	div(
+	    cl("right-half"),
+	    elem(
+		"a",
+		attr({
+		    href: "https://github.com/derek-zhou/proactive",
+		    referrerpolicy: "no-referrer-when-downgrade"
+		}),
+		text("Fork me on GitHub")
+	    )
+	)
+    );
 }
 
 function navbar(state) {
-    return [
-	div(cl("navbar"),
-	    div(elem("a", [
+    return div(
+	cl("navbar"),
+	div(
+	    elem(
+		"a",
 		attr({href: "index.html"}),
-		elem("img", [cl("logo"), attr({src: Asset.at("logoImage")})]),
-	    ])),
-	    div(cl("toolbar"),
-		elem("button", [
-		    cl("button"),
-		    hook("click", Controller.clickSaveEvent),
-		    text("📤")
-		]),
-		elem("button", [
-		    cl("button"),
-		    hook("click", Controller.clickRestoreEvent),
-		    text("📥")
-		]),
-		elem("button", [
-		    cl("button"),
-		    hook("click", Controller.clickNewEvent),
-		    text("➕")
-		]),
-		elem("button", [
-		    cl("button"),
-		    hook("click", Controller.clickLeftEvent),
-		    text("◀")
-		]),
-		elem("button", [
-		    cl("button"),
-		    hook("click", Controller.clickRightEvent),
-		    text("▶")
-		])))
-    ];
+		elem("img", cl("logo"), attr({src: Asset.at("logoImage")})),
+	    )
+	),
+	div(
+	    cl("toolbar"),
+	    elem(
+		"button",
+		cl("button"),
+		hook("click", Controller.clickSaveEvent),
+		text("📤")
+	    ),
+	    elem(
+		"button",
+		cl("button"),
+		hook("click", Controller.clickRestoreEvent),
+		text("📥")
+	    ),
+	    elem(
+		"button",
+		cl("button"),
+		hook("click", Controller.clickNewEvent),
+		text("➕")
+	    ),
+	    elem(
+		"button",
+		cl("button"),
+		hook("click", Controller.clickLeftEvent),
+		text("◀")
+	    ),
+	    elem(
+		"button",
+		cl("button"),
+		hook("click", Controller.clickRightEvent),
+		text("▶")
+	    )
+	)
+    );
 }
 
 function alertClass(type) {
@@ -106,11 +120,12 @@ function alertClass(type) {
 function alert(state) {
     if (state.alert.text == "")
 	return [];
-    return elem("p", [
+    return elem(
+	"p",
 	cl("alert", alertClass(state.alert.type)),
 	hook("click", Controller.clickAlertEvent),
 	text(state.alert.text)
-    ]);
+    );
 }
 
 function content(state) {
@@ -126,23 +141,26 @@ function content(state) {
 
 function actionBar(item) {
     return [
-	elem("button", [
+	elem(
+	    "button",
 	    cl("button"),
 	    item ? [] : attr({disabled: true}),
 	    hook("click", Controller.clickSnoozeEvent),
 	    text("✔")
-	]),
-	elem("button", [
+	),
+	elem(
+	    "button",
 	    cl("button"),
 	    item ? [] : attr({disabled: true}),
 	    hook("click", Controller.clickEditEvent),
 	    text("✏")
-	]),
-	elem("button", [
+	),
+	elem(
+	    "button",
 	    cl("button", "danger"),
 	    item ? [] : attr({disabled: true}),
 	    hook("click", Controller.clickTrashEvent),
 	    text("🗑 ")
-	])
+	)
     ];
 }
