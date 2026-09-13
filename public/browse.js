@@ -1,15 +1,15 @@
 import * as Controller from "./pro_controller.js";
 import * as Asset from './assets.js';
-import {hook, elem, text, attr, cl, div, shadow_div} from "./domfun.js";
+import {hook, elem, text, attr, cl, div, style} from "./domfun.js";
 import {intervalString} from "./items.js";
 
 export function browse(state) {
-    return shadow_div(
-	[Asset.at("preflightCSS"), Asset.at("browseCSS")],
-	div(cl("browser"),
-	    div(cl("content"), item_view(state.currentItem, state.selection)),
-	    div(cl("tablist"), tab_list(state.selection))
-	   ));
+    return div(
+	style(Asset.at("preflightCSS")),
+	style(Asset.at("browseCSS")),
+	div(cl("content"), item_view(state.currentItem, state.selection)),
+	div(cl("tablist"), tab_list(state.selection))
+    );
 }
 
 function item_view(item, selection) {

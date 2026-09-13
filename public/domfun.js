@@ -18,20 +18,29 @@ export function fill(html) {
 
 export function attr(attributes) {
     return (node) => {
-	let n = node.host || node;
 	for (const key in attributes) {
-	    n.setAttribute(key, attributes[key]);
+	    node.setAttribute(key, attributes[key]);
 	}
     };
 }
 
 export function cl() {
     return (node) => {
-	let n = node.host || node;
 	for (const one of arguments) {
-	    n.classList.add(one);
+	    node.classList.add(one);
 	}
     };
+}
+
+// style call must be beform any node appending call because it will create shadowRoot on demand
+export function style(sheet) {
+    return (node) => {
+	let shadow_root = node.shadowRoot;
+	if (!node.shadowRoot) {
+	    shadow_root = node.attachShadow({ mode: "open" });
+	}
+	shadow_root.adoptedStyleSheets.push(sheet);
+    }
 }
 
 export function text(t) {
@@ -59,18 +68,10 @@ export function div() {
     return append(element);
 }
 
-export function shadow_div(styles, script) {
-    const element = document.createElement("div");
-    // close shadow root because we are not going to mess with it afterward
-    const shadow_root = element.attachShadow({ mode: "closed" });
-    shadow_root.adoptedStyleSheets = styles;
-    play(shadow_root, script);
-    return append(element);
-}
-
 function append(element) {
     return (node) => {
-	node.append(element);
+	let n = node.shadowRoot || node;
+	n.append(element);
     };
 }
 

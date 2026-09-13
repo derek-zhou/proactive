@@ -1,6 +1,6 @@
 import * as Controller from "./pro_controller.js";
 import * as Asset from './assets.js';
-import {hook, elem, text, attr, cl, div, shadow_div} from "./domfun.js";
+import {hook, elem, text, attr, cl, style, div} from "./domfun.js";
 import {intervalString, IntervalChoices} from "./items.js";
 
 export function dialog(state) {
@@ -143,8 +143,9 @@ function build_options(options, default_value) {
 }
 
 function custom_form(submit_action, reset_action, title, inner) {
-    return shadow_div(
-	[Asset.at("preflightCSS"), Asset.at("dialogCSS")],
+    return div(
+	style(Asset.at("preflightCSS")),
+	style(Asset.at("dialogCSS")),
 	elem("form", [
 	    hook("submit", submit_action),
 	    reset_action ? hook("reset", reset_action) : [],
