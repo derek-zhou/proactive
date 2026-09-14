@@ -31,7 +31,7 @@ function addDays(date, days) {
 
 // return a list of item id whose expirationDate is older than threshold,
 // sorted by expirationDate ascending
-function selectExpired(threshold) {
+function selectOutstanding(threshold) {
     let all_ids = summaries.keys();
     let map = new Map();
 
@@ -70,8 +70,8 @@ function selectInterval(interval) {
 const IntervalChoices = [1, 7, 28, 87, 360];
 
 const Selection = {
-    expired: () => selectExpired(new Date()),
-    nextWeek: () => selectExpired(addDays(new Date(), 7)),
+    outstanding: () => selectOutstanding(new Date()),
+    nextWeek: () => selectOutstanding(addDays(new Date(), 7)),
     daily: () => selectInterval(1),
     weekly: () => selectInterval(7),
     monthly: () => selectInterval(28),

@@ -15,7 +15,7 @@ export function browse(state) {
 function item_view(item, selection) {
     if (item) {
 	return [
-	    elem("h2", text(`A ${selection} task`)),
+	    elem("h2", text(`Task information:`)),
 	    div(
 		cl("twoside"),
 		elem("label", text("Url: ")),
@@ -46,7 +46,7 @@ function item_view(item, selection) {
 	    div(cl("twoside"), elem("label", text("Note to myself: "))),
 	    div(cl("line"), div(cl("value"), text(item.note)))
 	];
-    } else if (selection == Controller.Selections.expired) {
+    } else if (selection == Controller.Selections.outstanding) {
 	return elem("h2", text("You are all caught up, Yay!"));
     } else {
 	return elem("h2", text(`No tasks in the selected view: ${selection}`));
@@ -63,9 +63,9 @@ function tab_list(selection) {
 	elem(
 	    "button",
 	    cl("tab"),
-	    tab_attr("expired", selection),
-	    hook("click", Controller.clickExpiredEvent),
-	    text("Expired")
+	    tab_attr("outstanding", selection),
+	    hook("click", Controller.clickOutstandingEvent),
+	    text("Outstanding")
 	),
 	elem(
 	    "button",

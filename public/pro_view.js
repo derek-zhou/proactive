@@ -63,12 +63,10 @@ function footer(state) {
 function navbar(state) {
     return div(
 	cl("navbar"),
-	div(
-	    elem(
-		"a",
-		attr({href: "index.html"}),
-		elem("img", cl("logo"), attr({src: Asset.at("logoImage")})),
-	    )
+	elem(
+	    "a",
+	    attr({href: "index.html"}),
+	    elem("img", cl("logo"), attr({src: Asset.at("logoImage")})),
 	),
 	div(
 	    cl("toolbar"),
@@ -143,7 +141,7 @@ function actionBar(item) {
     return [
 	elem(
 	    "button",
-	    cl("button"),
+	    cl("button", "convenient"),
 	    item ? [] : attr({disabled: true}),
 	    hook("click", Controller.clickSnoozeEvent),
 	    text("✔")

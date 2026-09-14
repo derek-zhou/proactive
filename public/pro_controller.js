@@ -19,7 +19,7 @@ export const Screens = {
 
 // screen is fundimental content shown in the window
 export const Selections = {
-    expired: "expired",
+    outstanding: "outstanding",
     daily: "daily",
     weekly: "weekly",
     monthly: "monthly",
@@ -30,7 +30,7 @@ export const Selections = {
 // the application state
 var state = {
     screen: Screens.browse,
-    selection: Selections.expired,
+    selection: Selections.outstanding,
     currentItem: null,
     template: null,
     alert: {
@@ -175,11 +175,11 @@ export function clickReloadEvent(e) {
     location.reload();
 }
 
-export function clickExpiredEvent(e) {
+export function clickOutstandingEvent(e) {
     e.preventDefault();
     actionPreamble();
     state.screen = Screens.browse;
-    state.selection = Selections.expired;
+    state.selection = Selections.outstanding;
     Model.first(state.selection);
     try_render();
 }

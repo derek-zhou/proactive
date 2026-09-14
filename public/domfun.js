@@ -16,7 +16,8 @@ export function hook(type, handler) {
 
 export function fill(html) {
     return (node) => {
-	node.innerHTML = html;
+	let n = node.shadowRoot || node;
+	n.innerHTML = html;
     };
 }
 

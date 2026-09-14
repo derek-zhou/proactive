@@ -127,6 +127,10 @@ div.actionbar .button {
     color: White;
 }
 
+div.actionbar .button.convenient {
+    background-color: SpringGreen;
+}
+
 div.actionbar .button.danger {
     background-color: Crimson;
 }
