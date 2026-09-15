@@ -1,18 +1,29 @@
 import * as Controller from "./pro_controller.js";
 import * as Asset from './assets.js';
 import {hook, elem, text, attr, cl, div, style} from "./domfun.js";
-import {intervalString} from "./items.js";
 
 export function browse(state) {
     return div(
 	style(Asset.at("preflightCSS")),
 	style(Asset.at("browseCSS")),
-	div(cl("content"), item_view(state.currentItem, state.selection)),
+	div(cl("content"), item_view(state.currentItem, state.selection, state.now)),
 	div(cl("tablist"), tab_list(state.selection))
     );
 }
 
-function item_view(item, selection) {
+function daysString(d1, d2, interval) {
+    let diff = d2 - d1;
+    let days = Math.round(diff / 1000 / 3600 / 24 - interval);
+
+    if (days > 0)
+	return `${days} days ago`;
+    else if (days < 0)
+	return `${0 - days} days later`;
+    else
+	return "Today";
+}
+
+function item_view(item, selection, now) {
     if (item) {
 	return [
 	    elem("h2", text(`Task information:`)),
@@ -27,20 +38,11 @@ function item_view(item, selection) {
 	    ),
 	    div(
 		cl("twoside"),
-		elem("label", text("Last Checked: ")),
+		elem("label", text("Checked by: ")),
 		elem(
 		    "span",
 		    cl("value"),
-		    text(item.lastChecked.toString())
-		)
-	    ),
-	    div(
-		cl("twoside"),
-		elem("label", text("Check interval: ")),
-		elem(
-		    "span",
-		    cl("value"),
-		    text(intervalString(item.checkInterval))
+		    text(daysString(item.lastChecked, now, item.checkInterval))
 		)
 	    ),
 	    div(cl("twoside"), elem("label", text("Note to myself: "))),

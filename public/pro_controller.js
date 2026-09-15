@@ -33,6 +33,7 @@ var state = {
     selection: Selections.outstanding,
     currentItem: null,
     template: null,
+    now: new Date(),
     alert: {
 	text: "",
 	type: "info"
@@ -90,6 +91,7 @@ export function itemsLoadedEvent(length) {
 
 export function itemUpdatedEvent(item) {
     state.currentItem = item;
+    state.now = new Date();
     try_render();
 }
 
