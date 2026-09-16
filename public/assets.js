@@ -7,7 +7,6 @@ const Images = {
 };
 
 const Styles = {
-    preflightCSS: "./preflight.css",
     dialogCSS: "./dialog.css",
     browseCSS: "./browse.css"
 };

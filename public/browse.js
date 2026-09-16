@@ -4,7 +4,6 @@ import {hook, elem, text, attr, cl, div, style} from "./domfun.js";
 
 export function browse(state) {
     return div(
-	style(Asset.at("preflightCSS")),
 	style(Asset.at("browseCSS")),
 	div(cl("content"), item_view(state.currentItem, state.selection, state.now)),
 	div(cl("tablist"), tab_list(state.selection))

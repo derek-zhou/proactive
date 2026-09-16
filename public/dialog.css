@@ -1,9 +1,33 @@
+*,
+::before,
+::after {
+    box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+    font-size: 100%;
+}
 a {
     color: RoyalBlue;
+    text-decoration: inherit;
 }
 a:focus,
 a:hover {
     color: SteelBlue;
+}
+button {
+    margin: 0rem;
+    padding: 0rem;
+    cursor: pointer;
+}
+:host {
+    line-height: 1.5;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 h2 {
     margin-left: 2rem;
@@ -88,6 +112,7 @@ form .toolbar {
 }
 form section {
     border-bottom-width: 1px;
+    border-color: Gainsboro;
     padding-top: 0.5rem;
     display: flex;
     flex-direction: row;
