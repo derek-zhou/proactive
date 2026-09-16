@@ -10,7 +10,9 @@ input,
 optgroup,
 select,
 textarea {
+    font-family: inherit;
     font-size: 100%;
+    line-height: inherit;
 }
 a {
     color: RoyalBlue;
