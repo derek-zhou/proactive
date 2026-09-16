@@ -15,12 +15,12 @@ textarea {
     line-height: inherit;
 }
 a {
-    color: RoyalBlue;
+    color: royalblue;
     text-decoration: inherit;
 }
 a:focus,
 a:hover {
-    color: SteelBlue;
+    color: steelblue;
 }
 button {
     margin: 0rem;
@@ -30,7 +30,7 @@ button {
 :host {
     display: flex;
     flex-direction: row;
-    background-color: White;
+    background-color: white;
     line-height: 1.5;
     font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
@@ -55,7 +55,7 @@ div.tablist {
 }
 div.tablist div.filler {
     height: 1rem;
-    border-color: SteelBlue;
+    border-color: steelblue;
     border-left-width: 0.15rem;
 }
 div.tablist button.tab {
@@ -63,16 +63,16 @@ div.tablist button.tab {
     padding-bottom: 0.5rem;
     padding-left: 1rem;
     padding-right: 1rem;
-    color: Darkorchid;
+    color: darkorchid;
     background-color: transparent;
     text-align: left;
-    border-color: SteelBlue;
+    border-color: steelblue;
     border-left-width: 0.15rem;
 }
 div.tablist button.tab[disabled] {
     pointer-events: none;
     cursor: default;
-    color: SteelBlue;
+    color: steelblue;
     border-top-width: 0.15rem;
     border-bottom-width: 0.15rem;
     border-right-width: 0.15rem;

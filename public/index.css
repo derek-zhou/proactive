@@ -15,12 +15,12 @@ textarea {
     line-height: inherit;
 }
 a {
-    color: RoyalBlue;
+    color: royalblue;
     text-decoration: inherit;
 }
 a:focus,
 a:hover {
-    color: SteelBlue;
+    color: steelblue;
 }
 button {
     margin: 0rem;
@@ -33,7 +33,7 @@ html {
 }
 .button:focus,
 .button:hover {
-    color: SteelBlue;
+    color: steelblue;
 }
 .button[disabled] {
     pointer-events: none;
@@ -44,16 +44,16 @@ html {
     margin-bottom: 0px;
     border-radius: 0.25rem;
     padding: 0.5rem;
-    background-color: Khaki;
+    background-color: khaki;
 }
 .alert-info {
-    color: RoyalBlue;
+    color: royalblue;
 }
 .alert-warning {
-    color: Orchid;
+    color: orchid;
 }
 .alert-danger {
-    color: Crimson;
+    color: crimson;
 }
 body {
     position: relative;
@@ -73,7 +73,7 @@ div.footer {
     display: flex;
     font-size: 0.875rem;
     line-height: 1.25rem;
-    color: Teal;
+    color: teal;
     padding: 0.5rem;
     text-align: center;
 }
@@ -91,7 +91,7 @@ div.right-half {
 div.navbar {
     display: flex;
     padding: 0.5rem;
-    background-color: Whitesmoke;
+    background-color: whitesmoke;
 }
 
 div.navbar img.logo {
@@ -100,7 +100,7 @@ div.navbar img.logo {
 }
 
 div.navbar span.info {
-    color: DarkSlateGray;
+    color: darkslategray;
     vertical-align: bottom;
     white-space: nowrap;
 }
@@ -116,7 +116,7 @@ div.navbar div.toolbar button {
     padding-bottom: 0.25rem;
     border-width: 0rem;
     background-color: transparent;
-    color: Orchid;
+    color: orchid;
     appearance: none;
     font-weight: 700;
     font-size: 1.125rem;
@@ -150,16 +150,16 @@ div.actionbar .button {
     font-size: 1.125rem;
     line-height: 1.75rem;
     font-weight: 700;
-    background-color: DarkOrchid;
-    color: White;
+    background-color: darkorchid;
+    color: white;
 }
 
 div.actionbar .button.convenient {
-    background-color: SpringGreen;
+    background-color: springgreen;
 }
 
 div.actionbar .button.danger {
-    background-color: Crimson;
+    background-color: crimson;
 }
 
 @media (min-width: 1024px) {

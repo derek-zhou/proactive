@@ -15,12 +15,12 @@ textarea {
     line-height: inherit;
 }
 a {
-    color: RoyalBlue;
+    color: royalblue;
     text-decoration: inherit;
 }
 a:focus,
 a:hover {
-    color: SteelBlue;
+    color: steelblue;
 }
 button {
     margin: 0rem;
@@ -42,7 +42,7 @@ h2 {
 form {
     display: flex;
     flex-direction: column;
-    background-color: Ghostwhite;
+    background-color: ghostwhite;
     padding: 0.5rem;
 }
 div.twoside {
@@ -73,7 +73,7 @@ div.line div.value {
 }
 form hr {
     margin-bottom: 0.5rem;
-    border-color: Silver;
+    border-color: silver;
 }
 form .button {
     display: inline-block;
@@ -89,18 +89,18 @@ form .button {
     font-size: 1.125rem;
     line-height: 1.75rem;
     font-weight: 700;
-    background-color: Orchid;
-    color: White;
+    background-color: orchid;
+    color: white;
 }
 form .button[type=reset] {
-    background-color: Crimson;
+    background-color: crimson;
 }
 form .button[type=submit] {
-    background-color: Darkorchid;
+    background-color: darkorchid;
 }
 form .button.inline {
-    color: Orchid;
-    background-color: Gainsboro;
+    color: orchid;
+    background-color: gainsboro;
     padding: 0rem;
     line-height: 1rem;
 }
@@ -114,7 +114,7 @@ form .toolbar {
 }
 form section {
     border-bottom-width: 1px;
-    border-color: Gainsboro;
+    border-color: gainsboro;
     padding-top: 0.5rem;
     display: flex;
     flex-direction: row;
@@ -129,7 +129,7 @@ form section:last-child {
 form select {
     border-radius: 0.25rem;
     border-width: 1px;
-    border-color: LightSlateGray;
+    border-color: lightslategray;
     padding-left: 0.25rem;
 }
 form input.long {
@@ -141,35 +141,35 @@ form input.short {
 form input[type=number] {
     border-radius: 0.25rem;
     border-width: 1px;
-    border-color: LightSlateGray;
+    border-color: lightslategray;
     line-height: 1.625;
 }
 form input[type=text] {
     border-radius: 0.25rem;
     border-width: 1px;
-    border-color: LightSlateGray;
+    border-color: lightslategray;
     line-height: 1.625;
 }
 form input[type=email] {
     border-radius: 0.25rem;
     border-width: 1px;
-    border-color: LightSlateGray;
+    border-color: lightslategray;
     line-height: 1.625;
 }
 form input[type=password] {
     border-radius: 0.25rem;
     border-width: 1px;
-    border-color: Orchid;
+    border-color: orchid;
     line-height: 1.625;
 }
 form textarea {
-      line-height: 1.625;
-      border-width: 1px;
-      border-radius: 0.25rem;
-      resize: none;
-      box-sizing: border-box;
-      border-color: DarkSlateGray;
-      height: 5rem;
-      padding: 0.25rem;
-      width: 100%;
+    line-height: 1.625;
+    border-width: 1px;
+    border-radius: 0.25rem;
+    resize: none;
+    box-sizing: border-box;
+    border-color: lightslategray;
+    height: 5rem;
+    padding: 0.25rem;
+    width: 100%;
 }
