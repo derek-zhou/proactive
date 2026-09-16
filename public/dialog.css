@@ -36,7 +36,7 @@ h2 {
     margin-top: 1rem;
     margin-bottom: 0.75rem;
     font-size: 1.5rem;
-    font-weight: 700;
+    font-weight: bold;
     line-height: 1.625;
 }
 form {
@@ -88,7 +88,7 @@ form .button {
     text-align: center;
     font-size: 1.125rem;
     line-height: 1.75rem;
-    font-weight: 700;
+    font-weight: bold;
     background-color: orchid;
     color: white;
 }
@@ -100,7 +100,7 @@ form .button[type=submit] {
 }
 form .button.inline {
     color: orchid;
-    background-color: gainsboro;
+    background-color: transparent;
     padding: 0rem;
     line-height: 1rem;
 }

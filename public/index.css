@@ -41,7 +41,8 @@ html {
     opacity: 0.5;
 }
 .alert {
-    margin-bottom: 0px;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
     border-radius: 0.25rem;
     padding: 0.5rem;
     background-color: khaki;
@@ -118,7 +119,7 @@ div.navbar div.toolbar button {
     background-color: transparent;
     color: orchid;
     appearance: none;
-    font-weight: 700;
+    font-weight: bold;
     font-size: 1.125rem;
     line-height: 1.75rem;
     text-align: center;
@@ -149,7 +150,7 @@ div.actionbar .button {
     text-align: center;
     font-size: 1.125rem;
     line-height: 1.75rem;
-    font-weight: 700;
+    font-weight: bold;
     background-color: darkorchid;
     color: white;
 }
