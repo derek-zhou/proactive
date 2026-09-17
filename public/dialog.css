@@ -13,8 +13,13 @@ h2 {
 form {
     display: flex;
     flex-direction: column;
-    background-color: ghostwhite;
+    width: 100%;
     padding: 0.5rem;
+}
+form .form-body {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 div.twoside {
     margin-bottom: 0.5rem;
@@ -42,46 +47,11 @@ div.line div.value {
     padding-left: 1rem;
     padding-right: 1rem;
 }
-form hr {
-    margin-bottom: 0.5rem;
-    border-color: silver;
-}
-form .button {
-    display: inline-block;
-    flex: none;
-    appearance: none;
-    border-radius: 0.25rem;
-    border-width: 0px;
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    text-align: center;
-    font-size: 1.125rem;
-    line-height: 1.75rem;
-    font-weight: bold;
-    background-color: orchid;
-    color: white;
-}
-form .button[type=reset] {
-    background-color: crimson;
-}
-form .button[type=submit] {
-    background-color: darkorchid;
-}
 form .button.inline {
-    color: orchid;
+    color: darkorchid;
     background-color: transparent;
     padding: 0rem;
     line-height: 1rem;
-}
-form .toolbar {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    column-gap: 0.25rem;
-    padding-top: 0.5rem;
 }
 form section {
     border-bottom-width: 1px;
@@ -108,6 +78,17 @@ form input.long {
 }
 form input.short {
     width: 6rem;
+}
+form .code {
+    font-family:
+	ui-monospace,
+	SFMono-Regular,
+	Menlo,
+	Monaco,
+	Consolas,
+	"Liberation Mono",
+	"Courier New",
+	monospace;
 }
 form input[type=number] {
     border-radius: 0.25rem;
@@ -144,3 +125,41 @@ form textarea {
     padding: 0.25rem;
     width: 100%;
 }
+.toolbar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 0.25rem;
+    padding-top: 0.5rem;
+}
+.toolbar .button {
+    display: inline-block;
+    flex: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    border-width: 0px;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    text-align: center;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: bold;
+    background-color: darkorchid;
+    color: white;
+}
+.toolbar .button[type=reset] {
+    background-color: crimson;
+}
+.toolbar .button[type=submit] {
+    background-color: darkorchid;
+}
+.toolbar .button.convenient {
+    background-color: springgreen;
+}
+.toolbar .button.danger {
+    background-color: crimson;
+}
+

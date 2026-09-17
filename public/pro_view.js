@@ -13,8 +13,8 @@ export function render(state) {
 	hook("touchmove", Controller.touchMoveEvent),
 	alert(state),
 	navbar(state),
-	dialog(state),
 	content(state),
+	dialog(state),
 	footer(state)
     );
 }
@@ -128,37 +128,8 @@ function alert(state) {
 
 function content(state) {
     if (state.screen == Controller.Screens.browse) {
-	return [
-	    div(cl("viewport-content"), browse(state)),
-	    div(cl("actionbar"), actionBar(state.currentItem))
-	];
+	return browse(state);
     } else {
 	return [];
     }
-}
-
-function actionBar(item) {
-    return [
-	elem(
-	    "button",
-	    cl("button", "convenient"),
-	    item ? [] : attr({disabled: true}),
-	    hook("click", Controller.clickSnoozeEvent),
-	    text("✔")
-	),
-	elem(
-	    "button",
-	    cl("button"),
-	    item ? [] : attr({disabled: true}),
-	    hook("click", Controller.clickEditEvent),
-	    text("✏")
-	),
-	elem(
-	    "button",
-	    cl("button", "danger"),
-	    item ? [] : attr({disabled: true}),
-	    hook("click", Controller.clickTrashEvent),
-	    text("🗑 ")
-	)
-    ];
 }

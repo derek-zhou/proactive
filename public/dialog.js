@@ -13,6 +13,8 @@ export function dialog(state) {
 	return reload_dialog();
     case Controller.Screens.restore:
 	return restore_dialog();
+    case Controller.Screens.browse:
+	return actionBar(state.currentItem);
     default:
 	return [];
     }
@@ -164,8 +166,11 @@ function custom_form(submit_action, reset_action, title, inner) {
 	    "form",
 	    hook("submit", submit_action),
 	    reset_action ? hook("reset", reset_action) : [],
-	    elem("h2", text(title)),
-	    elem("section", inner),
+	    div(
+		cl("form-body"),
+		elem("h2", text(title)),
+		elem("section", inner)
+	    ),
 	    div(
 		cl("toolbar"),
 		submit_button(),
@@ -181,4 +186,35 @@ function submit_button() {
 
 function reset_button() {
     return elem("input", cl("button"), attr({type: "reset", value: "👎"}));
+}
+
+function actionBar(item) {
+    return div(
+	style(Asset.at("commonCSS")),
+	style(Asset.at("dialogCSS")),
+	div(
+	    cl("toolbar"),
+	    elem(
+		"button",
+		cl("button", "convenient"),
+		item ? [] : attr({disabled: true}),
+		hook("click", Controller.clickSnoozeEvent),
+		text("✔")
+	    ),
+	    elem(
+		"button",
+		cl("button"),
+		item ? [] : attr({disabled: true}),
+		hook("click", Controller.clickEditEvent),
+		text("✏")
+	    ),
+	    elem(
+		"button",
+		cl("button", "danger"),
+		item ? [] : attr({disabled: true}),
+		hook("click", Controller.clickTrashEvent),
+		text("🗑 ")
+	    )
+	)
+    );
 }
