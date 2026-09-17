@@ -36,12 +36,12 @@ function trash_dialog(item) {
 	"Are you sure you want to delete this item?",
 	[
 	    div(
-		cl("twoside"),
+		cl("line"),
 		elem("label", text("URL: ")),
 		elem("span", cl("value"), text(item.url))
 	    ),
 	    div(
-		cl("twoside"),
+		cl("line"),
 		elem("label", text("Last Checked: ")),
 		elem(
 		    "span",
@@ -50,7 +50,7 @@ function trash_dialog(item) {
 		)
 	    ),
 	    div(
-		cl("twoside"),
+		cl("line"),
 		elem("label", text("Check interval: ")),
 		elem(
 		    "span",
@@ -58,7 +58,7 @@ function trash_dialog(item) {
 		    text(intervalString(item.checkInterval))
 		)
 	    ),
-	    div(cl("twoside"), elem("label", text("Note to myself: "))),
+	    div(cl("line"), elem("label", text("Note to myself: "))),
 	    div(cl("line"), div(cl("value"), text(item.note)))
 	]
     );
@@ -70,7 +70,7 @@ function restore_dialog() {
 	Controller.resetDialogEvent,
 	"Restoring from roastidio.us",
 	div(
-	    cl("twoside"),
+	    cl("line"),
 	    elem("label", text("Handle: ")),
 	    elem("input", cl("long"), attr({type: "text", name: "handle"}))
 	)
@@ -117,7 +117,7 @@ function edit_dialog(template) {
 	edit_title(template),
 	[
 	    div(
-		cl("twoside"),
+		cl("line"),
 		elem("label", text("URL: ")),
 		elem(
 		    "input",
@@ -126,7 +126,7 @@ function edit_dialog(template) {
 		)
 	    ),
 	    div(
-		cl("twoside"),
+		cl("line"),
 		elem("label", text("Check interval:")),
 		elem(
 		    "select",
@@ -134,7 +134,7 @@ function edit_dialog(template) {
 		    check_interval_options(default_check_interval(template))
 		)
 	    ),
-	    div(cl("twoside"), elem("label", text("Note to myself: "))),
+	    div(cl("line"), elem("label", text("Note to myself: "))),
 	    div(
 		cl("line"),
 		elem(

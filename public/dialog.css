@@ -9,6 +9,7 @@ h2 {
     font-size: 1.5rem;
     font-weight: bold;
     line-height: 1.625;
+    text-align: center;
 }
 form {
     display: flex;
@@ -21,31 +22,20 @@ form .form-body {
     flex-direction: column;
     width: 100%;
 }
-div.twoside {
+div.line {
     margin-bottom: 0.5rem;
     display: flex;
     width: 100%;
     gap: 0.5rem;
     flex-direction: row;
+    justify-content: center;
 }
-div.line {
-    margin-bottom: 0.5rem;
-    width: 100%;
-}
-div.twoside label {
-    width: 25%;
-    justify-content: right;
-    display: flex;
-}
-div.twoside span.value {
+div.line span.value {
     font-style: italic;
-    max-width: 70%;
     word-wrap: break-word;
 }
 div.line div.value {
     font-style: italic;
-    padding-left: 1rem;
-    padding-right: 1rem;
 }
 form .button.inline {
     color: darkorchid;

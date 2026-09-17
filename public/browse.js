@@ -28,7 +28,7 @@ function item_view(item, selection, now) {
 	return [
 	    elem("h2", text(`Task information:`)),
 	    div(
-		cl("twoside"),
+		cl("line"),
 		elem("label", text("Url: ")),
 		elem(
 		    "span",
@@ -37,7 +37,7 @@ function item_view(item, selection, now) {
 		)
 	    ),
 	    div(
-		cl("twoside"),
+		cl("line"),
 		elem("label", text("Checked by: ")),
 		elem(
 		    "span",
@@ -45,7 +45,7 @@ function item_view(item, selection, now) {
 		    text(daysString(item.lastChecked, now, item.checkInterval))
 		)
 	    ),
-	    div(cl("twoside"), elem("label", text("Note to myself: "))),
+	    div(cl("line"), elem("label", text("Note to myself: "))),
 	    div(cl("line"), div(cl("value"), text(item.note)))
 	];
     } else if (selection == Controller.Selections.outstanding) {
