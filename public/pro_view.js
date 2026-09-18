@@ -28,7 +28,7 @@ function render_title(state) {
     case Controller.Screens.edit:
 	return "Proactive: Edit your task";
     case Controller.Screens.restore:
-	return "Proactive: restore data";
+	return "Proactive: save and restore";
     case Controller.Screens.shutdown:
 	return "Proactive (zzz)";
     }
@@ -72,12 +72,6 @@ function navbar(state) {
 	),
 	div(
 	    cl("toolbar"),
-	    elem(
-		"button",
-		cl("button"),
-		hook("click", Controller.clickSaveEvent),
-		text("📤")
-	    ),
 	    elem(
 		"button",
 		cl("button"),

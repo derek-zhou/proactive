@@ -13,7 +13,7 @@ export function dialog(state) {
     case Controller.Screens.shutdown:
 	return reload_dialog();
     case Controller.Screens.restore:
-	return restore_dialog();
+	return restore_dialog(state);
     case Controller.Screens.browse:
 	return actionBar(state.currentItem);
     default:
@@ -64,17 +64,52 @@ function trash_dialog(item) {
     );
 }
 
-function restore_dialog() {
+function restore_dialog(state) {
     return custom_form(
 	Controller.submitRestoreEvent,
 	Controller.resetDialogEvent,
-	"Restoring from roastidio.us",
-	div(
-	    cl("line"),
-	    elem("label", text("Handle: ")),
-	    elem("input", attr({type: "text", name: "handle"}))
-	)
+	"Saving/restoring from roastidio.us",
+	[
+	    div(cl("line"), savedHandlePrompt(state)),
+	    div(
+		cl("line"),
+		elem("label", text("Restore tasks from: ")),
+		elem(
+		    "input",
+		    cl("short", "code"),
+		    attr({type: "text", name: "handle"})
+		)
+	    ),
+	    div(
+		cl("line"),
+		elem(
+		    "label",
+		    cl("danger"),
+		    text("Danger! Type \"clear database\" to delete all data")
+		),
+		elem("input", attr({type: "text", name:"clear_database"}))
+	    )
+	]
     );
+}
+
+function savedHandlePrompt(state) {
+    if (!state.restoreHandle) {
+	return [
+	    elem("label", text("Save your tasks: ")),
+	    elem(
+		"button",
+		cl("button", "inline"),
+		hook("click", Controller.clickSaveEvent),
+		text("🗄")
+	    )
+	];
+    } else {
+	return [
+	    elem("label", text("Your feeds were saved to: ")),
+	    elem("span", cl("value", "code"), text(state.restoreHandle))
+	];
+    }
 }
 
 function check_interval_options(default_value) {

@@ -33,6 +33,7 @@ var state = {
     selection: Selections.outstanding,
     currentItem: null,
     template: null,
+    restoreHandle: null,
     now: new Date(),
     alert: {
 	text: "",
@@ -113,6 +114,11 @@ export function shutDownEvent(type, text) {
     state.alert.type = type;
     state.alert.text = text;
     state.screen = Screens.shutdown;
+    try_render();
+}
+
+export function postHandleEvent(text) {
+    state.restoreHandle = text;
     try_render();
 }
 
@@ -274,6 +280,7 @@ export function clickRestoreEvent(e) {
     e.preventDefault();
     actionPreamble();
     state.screen = Screens.restore;
+    state.restoreHandle = null;
     try_render();
 }
 
@@ -288,8 +295,13 @@ export function submitRestoreEvent(e) {
     e.preventDefault();
     actionPreamble();
     let data = new FormData(e.currentTarget);
-    let handle = data.get("handle");
-    Model.restoreAll(handle);
+
+    if (data.get("clear_database") == "clear database") {
+	Model.clearData();
+    } else {
+	let handle = data.get("handle");
+	Model.restoreAll(handle);
+    }
     state.screen = Screens.browse;
     try_render();
 }

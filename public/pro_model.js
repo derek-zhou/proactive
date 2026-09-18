@@ -9,7 +9,7 @@ import {openDB, deleteDB} from './index_db.js';
 import * as Items from './items.js';
 
 // events I post to the controller
-import {alertEvent, itemsLoadedEvent, shutDownEvent, ensureItemEvent,
+import {alertEvent, itemsLoadedEvent, shutDownEvent, ensureItemEvent, postHandleEvent,
 	itemUpdatedEvent, Selections} from "./pro_controller.js";
 
 // exported client side functions. all return promises or null
@@ -174,7 +174,7 @@ async function cb_saveAll(prev) {
 	}
 	let data = await response.json();
 	let handle = data.handle;
-	alertEvent("info", `Your data is saved and can be restored with the handle: ${handle}`);
+	postHandleEvent(handle);
     } catch (e) {
 	console.error(`${e}`);
 	alertEvent("error", "Saving data failed");
