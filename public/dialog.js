@@ -72,7 +72,7 @@ function restore_dialog() {
 	div(
 	    cl("line"),
 	    elem("label", text("Handle: ")),
-	    elem("input", cl("long"), attr({type: "text", name: "handle"}))
+	    elem("input", attr({type: "text", name: "handle"}))
 	)
     );
 }

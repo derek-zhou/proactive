@@ -27,6 +27,8 @@ function render_title(state) {
 	return "Proactive: Are you sure?";
     case Controller.Screens.edit:
 	return "Proactive: Edit your task";
+    case Controller.Screens.restore:
+	return "Proactive: restore data";
     case Controller.Screens.shutdown:
 	return "Proactive (zzz)";
     }
