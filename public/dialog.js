@@ -2,6 +2,7 @@ import * as Controller from "./pro_controller.js";
 import * as Asset from './assets.js';
 import {hook, elem, text, attr, cl, style, div} from "./domfun.js";
 import {intervalString, IntervalChoices} from "./items.js";
+import {note_to_myself} from "./browse.js";
 
 export function dialog(state) {
     switch (state.screen) {
@@ -58,8 +59,7 @@ function trash_dialog(item) {
 		    text(intervalString(item.checkInterval))
 		)
 	    ),
-	    div(cl("line"), elem("label", text("Note to myself: "))),
-	    div(cl("line"), div(cl("value"), text(item.note)))
+	    note_to_myself(item.note)
 	]
     );
 }
