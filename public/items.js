@@ -13,8 +13,8 @@ import {openCursor, openCursorFromIndex, continueCursor, getObject, getObjectFro
 	addObject, putObject, deleteObject} from './index_db.js';
 
 // public apis
-export {upgrade, load, first, next, previous, remove, add, update, sensibleNext, allTasks,
-	intervalString, IntervalChoices};
+export {upgrade, load, first, next, previous, remove, add, update, sensibleNext, sensibleThis,
+	allTasks, intervalString, IntervalChoices};
 
 const Store = "items";
 const UrlIndex = "url";
@@ -169,6 +169,27 @@ async function sensibleNext(cursor, selection, db) {
     if (pre != null) {
 	// getObject is async
 	return getObject(db, Store, pre);
+    } else {
+	return null;
+    }
+}
+
+// if cursor is in the  selection, return this item, otherwise, return first item
+async function sensibleThis(cursor, selection, db) {
+    let list = Selection[selection]();
+
+    if (cursor != null)  {
+	for (const id of list) {
+	    if (cursor == id) {
+		// getObject is async
+		return getObject(db, Store, id);
+	    }
+	}
+    }
+
+    if (list.length > 0) {
+	// getObject is async
+	return getObject(db, Store, list[0]);
     } else {
 	return null;
     }

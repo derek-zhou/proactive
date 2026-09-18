@@ -87,6 +87,7 @@ function actionPreamble() {
 
 export function itemsLoadedEvent(length) {
     console.log(`${length} items loaded`);
+    Model.reload(state.currentItem, state.selection);
 }
 
 export function itemUpdatedEvent(item) {
@@ -319,7 +320,7 @@ function addChange(changes, key, data) {
 	changes[key] = data.get(key);
 }
 
-Model.init(state.selection);
+Model.init();
 
 // do I have a incoming api call to add a task
 if (location.search) {
@@ -366,6 +367,6 @@ document.addEventListener("visibilitychange", (e) => {
 	state.screen = Screens.browse;
 	state.alert.text = "";
 	state.alert.type = "info";
-	Model.init(state.selection);
+	Model.init();
     }
 });

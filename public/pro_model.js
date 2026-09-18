@@ -13,7 +13,7 @@ import {alertEvent, itemsLoadedEvent, shutDownEvent, ensureItemEvent,
 	itemUpdatedEvent, Selections} from "./pro_controller.js";
 
 // exported client side functions. all return promises or null
-export {init, shutdown, clearData, first, forward, backward, save, remove,
+export {init, shutdown, clearData, first, forward, backward, reload, save, remove,
 	saveAll, restoreAll};
 
 const Stash = "https://roastidio.us/stash";
@@ -24,15 +24,13 @@ const Stash = "https://roastidio.us/stash";
 let db = null;
 
 // the init callback
-async function cb_init(prev, selection) {
+async function cb_init(prev) {
     await prev;
     db = await openDB("Proactive", 1, (db) => {
 	Items.upgrade(db);
     });
     let length = await Items.load(db);
     itemsLoadedEvent(length);
-    let item = await Items.first(selection, db);
-    itemUpdatedEvent(item);
 }
 
 // the shutdown callback
@@ -94,6 +92,14 @@ async function cb_backward(prev, current, selection) {
     } else {
 	itemUpdatedEvent(item);
     }
+}
+
+async function cb_reload(prev, current, selection) {
+    await prev;
+    if (!db)
+	return;
+    let item = await Items.sensibleThis(current && current.id, selection, db);
+    itemUpdatedEvent(item);
 }
 
 async function cb_save(prev, object, changes, selection) {
@@ -216,8 +222,8 @@ async function cb_restoreAll(prev, handle) {
  */
 let state = null;
 
-function init(selection) {
-    state = cb_init(state, selection);
+function init() {
+    state = cb_init(state);
 }
 
 // clear all local data
@@ -239,6 +245,10 @@ function forward(current, selection) {
 
 function backward(current, selection) {
     state = cb_backward(state, current, selection);
+}
+
+function reload(current, selection) {
+    state = cb_reload(state, current, selection);
 }
 
 function save(template, changes, selection) {
