@@ -7,6 +7,7 @@ const Images = {
 };
 
 const Styles = {
+    appCSS: "./app.css",
     commonCSS: "./common.css",
     dialogCSS: "./dialog.css",
     browseCSS: "./browse.css"
