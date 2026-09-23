@@ -218,7 +218,7 @@ async function cb_restoreAll(prev, handle) {
 
 async function cb_tryEdit(prev, url) {
     await prev;
-    let item = await Items.getByUrl(url);
+    let item = await Items.getByUrl(url, db);
     if (item)
 	editItemEvent(item);
     else
