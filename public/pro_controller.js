@@ -122,6 +122,12 @@ export function postHandleEvent(text) {
     try_render();
 }
 
+export function editItemEvent(item) {
+    state.template = item;
+    state.screen = Screens.edit;
+    try_render();
+}
+
 // for swipes
 let xDown = null;
 let yDown = null;
@@ -341,11 +347,8 @@ if (location.search) {
     // clear location so it is cleaner
     let url = new URL("/", document.location.href);
     history.pushState({}, "", url.href);
-    if (str) {
-	state.template = {url: str};
-	state.screen = Screens.edit;
-	try_render();
-    }
+    if (str)
+	Model.tryEdit(str);
 }
 
 document.addEventListener("keydown", (e) => {

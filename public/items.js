@@ -14,7 +14,7 @@ import {openCursor, openCursorFromIndex, continueCursor, getObject, getObjectFro
 
 // public apis
 export {upgrade, load, first, next, previous, remove, add, update, sensibleNext, sensibleThis,
-	allTasks, intervalString, IntervalChoices};
+	getByUrl, allTasks, intervalString, IntervalChoices};
 
 const Store = "items";
 const UrlIndex = "url";
@@ -193,6 +193,10 @@ async function sensibleThis(cursor, selection, db) {
     } else {
 	return null;
     }
+}
+
+async function getByUrl(url, db) {
+    return getObjectFromIndex(db, Store, UrlIndex, url);
 }
 
 async function allTasks(db) {

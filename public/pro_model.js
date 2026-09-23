@@ -10,11 +10,11 @@ import * as Items from './items.js';
 
 // events I post to the controller
 import {alertEvent, itemsLoadedEvent, shutDownEvent, ensureItemEvent, postHandleEvent,
-	itemUpdatedEvent, Selections} from "./pro_controller.js";
+	itemUpdatedEvent, editItemEvent, Selections} from "./pro_controller.js";
 
 // exported client side functions. all return promises or null
 export {init, shutdown, clearData, first, forward, backward, reload, save, remove,
-	saveAll, restoreAll};
+	tryEdit, saveAll, restoreAll};
 
 const Stash = "https://roastidio.us/stash";
 /*
@@ -216,6 +216,15 @@ async function cb_restoreAll(prev, handle) {
     ensureItemEvent();
 }
 
+async function cb_tryEdit(prev, url) {
+    await prev;
+    let item = await Items.getByUrl(url);
+    if (item)
+	editItemEvent(item);
+    else
+	editItemEvent({url: url, checkInterval: 7});
+}
+
 /*
  * Client side state which is a promise
  * any client side function will await and replace the state
@@ -265,4 +274,8 @@ function saveAll() {
 
 function restoreAll(handle) {
     state = cb_restoreAll(state, handle);
+}
+
+function tryEdit(url) {
+    state = cb_tryEdit(state, url);
 }
