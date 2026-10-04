@@ -167,6 +167,25 @@ export function touchMoveEvent(e) {
     yDown = null;
 }
 
+export function keyDownEvent(e) {
+    switch (e.key) {
+    case 'n':
+    case 'N':
+	e.preventDefault();
+	actionPreamble();
+	Model.forward(state.currentItem, state.selection);
+	break;
+    case 'p':
+    case 'P':
+	e.preventDefault();
+	actionPreamble();
+	Model.backward(state.currentItem, state.selection);
+	break;
+    default:
+	may_render();
+    }
+}
+
 export function clickLeftEvent(e) {
     e.preventDefault();
     actionPreamble();
@@ -350,28 +369,6 @@ if (location.search) {
     if (str)
 	Model.tryEdit(str);
 }
-
-document.addEventListener("keydown", (e) => {
-    if (state.screen != Screens.browse)
-	return;
-
-    switch (e.key) {
-    case 'n':
-    case 'N':
-	e.preventDefault();
-	actionPreamble();
-	Model.forward(state.currentItem, state.selection);
-	break;
-    case 'p':
-    case 'P':
-	e.preventDefault();
-	actionPreamble();
-	Model.backward(state.currentItem, state.selection);
-	break;
-    default:
-	may_render();
-    }
-});
 
 document.addEventListener("visibilitychange", (e) => {
     if (elementDirty()) {

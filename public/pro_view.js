@@ -11,14 +11,24 @@ export function render(state) {
 	document.body,
 	style(Asset.at("commonCSS")),
 	style(Asset.at("appCSS")),
-	hook("touchstart", Controller.touchStartEvent),
-	hook("touchmove", Controller.touchMoveEvent),
+	body_hooks(state),
 	alert(state),
 	navbar(state),
 	content(state),
 	dialog(state),
 	footer(state)
     );
+}
+
+function body_hooks(state) {
+    if (state.screen == Controller.Screens.browse) {
+	return [
+	    hook("keydown", Controller.keyDownEvent),
+	    hook("touchstart", Controller.touchStartEvent),
+	    hook("touchmove", Controller.touchMoveEvent),
+	]
+    } else
+	return [];
 }
 
 function render_title(state) {
