@@ -41,36 +41,11 @@ var state = {
     }
 };
 
-// the set of elements that contain local state
-var dirtyElements = new Set();
-
 // does the screen not refrect the state
 var viewObsolete = false;
 
-export function focus_element(e) {
-    dirtyElements.add(e.currentTarget);
-}
-
-export function blur_element(e) {
-    let elem = e.currentTarget;
-    if (elem.value == "") {
-	dirtyElements.delete(elem);
-	may_render();
-    }
-}
-
-function elementDirty() {
-    // scroll position is also local state
-    return window.scrollY != 0 || dirtyElements.size > 0;
-}
-
-function clearElementState() {
-    window.scrollTo({top: 0});
-    dirtyElements.clear();
-}
-
 function may_render() {
-    if (!Asset.loaded || !viewObsolete || elementDirty())
+    if (!Asset.loaded || !viewObsolete)
 	return;
     render(state);
     viewObsolete = false;
@@ -83,7 +58,7 @@ export function try_render() {
 
 function actionPreamble() {
     state.alert.text = "";
-    clearElementState();
+    window.scrollTo({top: 0});
 }
 
 export function itemsLoadedEvent(length) {
@@ -371,9 +346,7 @@ if (location.search) {
 }
 
 document.addEventListener("visibilitychange", (e) => {
-    if (elementDirty()) {
-	return;
-    } else if (document.hidden && state.screen == Screens.browse) {
+    if (document.hidden && state.screen == Screens.browse) {
 	    Model.shutdown("info", "Shutdown due to inactivity");
     } else if (state.screen == Screens.shutdown) {
 	state.screen = Screens.browse;

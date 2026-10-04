@@ -27,8 +27,9 @@ function body_hooks(state) {
 	    hook("touchstart", Controller.touchStartEvent),
 	    hook("touchmove", Controller.touchMoveEvent),
 	]
-    } else
+    } else {
 	return [];
+    }
 }
 
 function render_title(state) {
