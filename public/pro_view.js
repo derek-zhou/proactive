@@ -2,12 +2,12 @@ import * as Controller from "./pro_controller.js";
 import * as Asset from "./assets.js";
 import {dialog} from "./dialog.js";
 import {browse} from "./browse.js";
-import {replay, hook, elem, text, attr, cl, style, div} from "./domfun.js";
+import {body, hook, elem, text, attr, cl, style, div} from "./domfun.js";
 
 // render everything from scratch
 export function render(state) {
     document.title = render_title(state);
-    replay(
+    document.body = body(
 	document.body,
 	style(Asset.at("commonCSS")),
 	style(Asset.at("appCSS")),
