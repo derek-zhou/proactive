@@ -8,7 +8,6 @@ import {body, hook, elem, text, attr, cl, style, div} from "./domfun.js";
 export function render(state) {
     document.title = render_title(state);
     document.body = body(
-	document.body,
 	style(Asset.at("commonCSS")),
 	style(Asset.at("appCSS")),
 	body_hooks(state),
