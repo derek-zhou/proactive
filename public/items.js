@@ -24,9 +24,8 @@ const UrlIndex = "url";
 var summaries = new Map();
 
 function addDays(date, days) {
-    var result = new Date(date);
-    result.setDate(result.getDate() + parseInt(days));
-    return result;
+    var result = date.getTime();
+    return new Date(result + days * 1000 * 3600);
 }
 
 // return a list of item id whose expirationDate is older than threshold,
@@ -235,11 +234,17 @@ async function add(changes, db) {
 
 async function update(item, changes, db) {
     for (const prop in changes) {
-	item[prop] = changes[prop];
+	if (prop == "lastChecked") {
+	    // force type conversion for the properties that require types other than string
+	    item.lastChecked = new Date(changes.lastChecked);
+	} else if (prop == "checkInterval") {
+	    item.checkInterval = parseInt(changes.checkInterval);
+	} else {
+	    item[prop] = changes[prop];
+	}
     }
     let id = await putObject(db, Store, item);
-    summaries.set(id, {lastChecked: item.lastChecked, checkInterval: item.checkInterval});
-    item.id = id;
+    summaries.set(item.id, {lastChecked: item.lastChecked, checkInterval: item.checkInterval});
     return id;
 }
 
