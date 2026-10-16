@@ -25,7 +25,7 @@ var summaries = new Map();
 
 function addDays(date, days) {
     var result = date.getTime();
-    return new Date(result + days * 1000 * 3600);
+    return new Date(result + parseInt(days) * 1000 * 3600  * 24);
 }
 
 // return a list of item id whose expirationDate is older than threshold,
