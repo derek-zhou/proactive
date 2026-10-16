@@ -38,15 +38,6 @@ function item_view(item, selection, now) {
 	    ),
 	    div(
 		cl("line"),
-		elem("label", text("Last checked: ")),
-		elem(
-		    "span",
-		    cl("value"),
-		    text(item.lastChecked)
-		)
-	    ),
-	    div(
-		cl("line"),
 		elem("label", text("Checked by: ")),
 		elem(
 		    "span",

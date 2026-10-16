@@ -24,9 +24,9 @@ const UrlIndex = "url";
 var summaries = new Map();
 
 function addDays(date, days) {
-  var result = new Date(date);
-  result.setDate(result.getDate() + days);
-  return result;
+    var result = new Date(date);
+    result.setDate(result.getDate() + parseInt(days));
+    return result;
 }
 
 // return a list of item id whose expirationDate is older than threshold,
@@ -44,7 +44,8 @@ function selectOutstanding(threshold) {
     }
 
     let list = Array.from(map.keys());
-    return list.toSorted((a, b) => map.get(a) - map.get(b));
+    list.sort((a, b) => map.get(a) - map.get(b));
+    return list;
 }
 
 // return a list of item id whose checkInterval is interval,
@@ -62,7 +63,8 @@ function selectInterval(interval) {
     }
 
     let list = Array.from(map.keys());
-    return list.toSorted((a, b) => map.get(a) - map.get(b));
+    list.sort((a, b) => map.get(a) - map.get(b));
+    return list;
 }
 
 const IntervalChoices = [1, 7, 28, 87, 360];
