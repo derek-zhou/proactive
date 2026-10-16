@@ -44,8 +44,7 @@ function selectOutstanding(threshold) {
     }
 
     let list = Array.from(map.keys());
-    list.sort((a, b) => map.get(a) - map.get(b));
-    return list;
+    return list.toSorted((a, b) => map.get(a) - map.get(b));
 }
 
 // return a list of item id whose checkInterval is interval,
@@ -63,8 +62,7 @@ function selectInterval(interval) {
     }
 
     let list = Array.from(map.keys());
-    list.sort((a, b) => map.get(a) - map.get(b));
-    return list;
+    return list.toSorted((a, b) => map.get(a) - map.get(b));
 }
 
 const IntervalChoices = [1, 7, 28, 87, 360];
