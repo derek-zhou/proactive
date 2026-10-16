@@ -25,7 +25,7 @@ var summaries = new Map();
 
 function addDays(date, days) {
     var result = date.getTime();
-    return new Date(result + parseInt(days) * 1000 * 3600  * 24);
+    return new Date(result + days * 1000 * 3600  * 24);
 }
 
 // return a list of item id whose expirationDate is older than threshold,
@@ -215,8 +215,7 @@ async function remove(cursor, db) {
     summaries.delete(cursor);
 }
 
-async function add(changes, db) {
-    let item = {lastChecked: new Date(), url: "", note: "", checkInterval: 7};
+function merge_changes(item, changes) {
     for (const prop in changes) {
 	if (prop == "lastChecked") {
 	    // force type conversion for the properties that require types other than string
@@ -227,22 +226,19 @@ async function add(changes, db) {
 	    item[prop] = changes[prop];
 	}
     }
+    return item;
+}
+
+async function add(changes, db) {
+    let item = merge_changes({lastChecked: new Date(), url: "", note: "", checkInterval: 7},
+			    changes);
     let id = await addObject(db, Store, item);
     summaries.set(id, {lastChecked: item.lastChecked, checkInterval: item.checkInterval});
     return id;
 }
 
 async function update(item, changes, db) {
-    for (const prop in changes) {
-	if (prop == "lastChecked") {
-	    // force type conversion for the properties that require types other than string
-	    item.lastChecked = new Date(changes.lastChecked);
-	} else if (prop == "checkInterval") {
-	    item.checkInterval = parseInt(changes.checkInterval);
-	} else {
-	    item[prop] = changes[prop];
-	}
-    }
+    merge_changes(item, changes);
     let id = await putObject(db, Store, item);
     summaries.set(item.id, {lastChecked: item.lastChecked, checkInterval: item.checkInterval});
     return id;
